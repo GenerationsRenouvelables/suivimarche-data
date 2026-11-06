@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "maj": "2026-11-06T15:46:19Z",
+  "maj": "2026-11-06T16:01:03Z",
   "jours": 30,
   "sources": {
    "presse": {
@@ -9,8 +9,8 @@
     "Les-EnR.eu": "ok (10 entrées lues)",
     "Révolution Énergétique": "ok (50 entrées lues)"
    },
-   "emplois": "erreur jeton France Travail: https://api.francetravail.io: HTTP Error 401: Unauthorized (vérifier que l'application francetravail.io a bien les API Offres d'emploi v2 / ",
-   "recrutent": "https://api.francetravail.io: HTTP Error 401: Unauthorized (vérifier que l'application francetravail.io a bien les API Offres d'emploi v2 / La Bonne Boîte v2 et"
+   "emplois": "https://api.francetravail.io: 401 (vérifier que FT_ID/FT_SECRET sont le Client ID et la clé secrète de l'application francetravail.io concernée, et que ses API ",
+   "recrutent": "https://api.francetravail.io: 401 (vérifier que FT_ID/FT_SECRET sont le Client ID et la clé secrète de l'application francetravail.io concernée, et que ses API "
   },
   "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE, entreprises qui recrutent (La Bonne Boîte), salons à venir. coords = coordonnées publiées par SIREN pour enrichir les fiches prospects."
  },
