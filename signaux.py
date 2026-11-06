@@ -4,10 +4,11 @@
 Trois sections, aucune clé obligatoire (bibliothèque standard uniquement) :
 - presse : flux RSS de médias énergie / industrie, filtrés par mots-clés
   (solaire, ombrières, ISO 14001/50001, recrutements énergie/RSE, agrandissements...) ;
-- emplois : API France Travail (api.francetravail.io) SI les variables d'environnement
-  FT_ID et FT_SECRET sont renseignées (secrets GitHub du dépôt), offres « énergie »,
-  « photovoltaïque », « RSE », « facility manager » des départements du périmètre,
-  publiées dans les 7 derniers jours ; sinon section vide avec une note ;
+- recrutent : entreprises qui recrutent, API La Bonne Boîte v2 de France Travail
+  (api.francetravail.io) SI les variables d'environnement FT_ID et FT_SECRET sont
+  renseignées (secrets GitHub du dépôt) : établissements à fort potentiel d'embauche
+  des départements du périmètre (grands domaines LBB_DOMAINES, hors intérim), avec
+  coords = coordonnées publiées par SIREN ; sinon section vide avec une note ;
 - salons : événements à venir du secteur (date/lieu/lien vers la liste des exposants).
 
 Le fichier est poussé tel quel ; _meta indique quelles sources ont répondu.
@@ -67,8 +68,7 @@ DEPS = ["02", "08", "51", "54", "59", "62", "80"]  # périmètre Nord France de 
 # identifiants dans le corps de la requête ; les API elles-mêmes restent sur api.francetravail.io.
 FT_TOKEN_URL = "https://entreprise.francetravail.fr/connexion/oauth2/access_token?realm=%2Fpartenaire"
 FT_API = "https://api.francetravail.io"
-SCOPES_LBB = "api_labonneboitev2 search office"
-SCOPES = os.environ.get("FT_SCOPES", "api_offresdemploiv2 o2dsoffre " + SCOPES_LBB).strip()
+SCOPES = os.environ.get("FT_SCOPES", "api_labonneboitev2 search office").strip()
 # La Bonne Boîte v2 impose un métier ou un secteur : grands domaines ROME ciblés
 # (H Industrie, N Transport et logistique, A Agriculture), hors intérim / placement (NAF 78).
 LBB_DOMAINES = [x for x in os.environ.get("LBB_DOMAINES", "H,N,A").replace(" ", "").split(",") if x]
@@ -165,39 +165,6 @@ def section_presse(sources):
     return entrees[:MAX], etat
 
 
-def section_emplois(token, domaine, avec_offres):
-    """API France Travail (offres d'emploi v2) si le jeton couvre ce scope."""
-    if not avec_offres:
-        return [], "API « Offres d'emploi v2 » non ajoutée à l'application francetravail.io (l'ajouter puis Enregistrer)"
-    requetes = ["responsable énergie", "chargé d'affaires photovoltaïque", "photovoltaïque", "RSE", "facility manager", "énergie bâtiment"]
-    out = []
-    limite = (dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=7)).isoformat()
-    try:
-        for q in requetes:
-            params = urllib.parse.urlencode({"q": q, "departement": ",".join(DEPS), "range": "0-39", "sort": "2"})
-            req = urllib.request.Request(
-                domaine + "/partenaire/offresdemploi/v2/offres/search?" + params,
-                headers={"Authorization": "Bearer " + token, "Accept": "application/json"})
-            with urllib.request.urlopen(req, timeout=25) as r:
-                j = json.load(r)
-            for o in (j.get("resultats") or []):
-                d = (o.get("dateCreation") or "")[:10]
-                if d and d < limite:      # filtre « 7 derniers jours » côté client
-                    continue
-                out.append({
-                    "titre": html.unescape(o.get("intitule") or ""),
-                    "entreprise": html.unescape((o.get("entreprise") or {}).get("nom") or ""),
-                    "lieu": html.unescape((o.get("lieuTravail") or {}).get("libelle") or ""),
-                    "date": d, "url": (o.get("origineOffre") or {}).get("url") or "", "mot": q,
-                })
-            if len(out) >= 40:
-                break
-        out = out[:40]
-        return out, "ok (%d offres sur 7 jours)" % len(out)
-    except Exception as e:
-        return [], "erreur API France Travail: %s" % str(e)[:140]
-
-
 def section_recrutent(token, domaine):
     """La Bonne Boîte v2 (route /recherche) : établissements à fort potentiel d'embauche par département
     du périmètre, dans les grands domaines LBB_DOMAINES. L'API ne publie ni téléphone ni site."""
@@ -252,44 +219,39 @@ def section_recrutent(token, domaine):
 
 
 def _ft_token(ft_id, ft_secret):
-    """Jeton OAuth2 client_credentials (francetravail.io). Repli sur les scopes La Bonne Boîte seuls
-    si l'application n'a pas encore l'API Offres d'emploi v2 -> retourne (token, domaine, scopes_ok)."""
-    erreur = ""
-    for scope in (SCOPES, SCOPES_LBB):
-        body = urllib.parse.urlencode({"grant_type": "client_credentials", "client_id": ft_id,
-                                       "client_secret": ft_secret, "scope": scope}).encode()
-        req = urllib.request.Request(FT_TOKEN_URL, data=body,
-                                     headers={"Content-Type": "application/x-www-form-urlencoded"})
+    """Jeton OAuth2 client_credentials (francetravail.io) pour les scopes SCOPES (La Bonne Boîte v2)
+    -> retourne (token, domaine)."""
+    body = urllib.parse.urlencode({"grant_type": "client_credentials", "client_id": ft_id,
+                                   "client_secret": ft_secret, "scope": SCOPES}).encode()
+    req = urllib.request.Request(FT_TOKEN_URL, data=body,
+                                 headers={"Content-Type": "application/x-www-form-urlencoded"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return json.load(r)["access_token"], FT_API
+    except urllib.error.HTTPError as e:
         try:
-            with urllib.request.urlopen(req, timeout=20) as r:
-                return json.load(r)["access_token"], FT_API, scope
-        except urllib.error.HTTPError as e:
-            try:
-                code = json.loads(e.read().decode("utf-8", "replace")).get("error") or ""
-            except Exception:
-                code = ""
-            erreur = "HTTP %s %s" % (e.code, code)
-            if code == "invalid_client":   # identifiants refusés : inutile d'essayer d'autres scopes
-                raise RuntimeError("jeton France Travail refusé (invalid_client) : vérifier que FT_ID / FT_SECRET sont l'identifiant client et la clé secrète de l'application francetravail.io")
-        except Exception as e:
-            erreur = str(e)[:80]
-    raise RuntimeError("jeton France Travail refusé (%s) : vérifier que les API La Bonne Boîte v2 / Offres d'emploi v2 sont ajoutées à l'application francetravail.io" % erreur.strip())
+            code = json.loads(e.read().decode("utf-8", "replace")).get("error") or ""
+        except Exception:
+            code = ""
+        erreur = "HTTP %s %s" % (e.code, code)
+        if code == "invalid_client":   # identifiants refusés
+            raise RuntimeError("jeton France Travail refusé (invalid_client) : vérifier que FT_ID / FT_SECRET sont l'identifiant client et la clé secrète de l'application francetravail.io")
+    except Exception as e:
+        erreur = str(e)[:80]
+    raise RuntimeError("jeton France Travail refusé (%s) : vérifier que l'API La Bonne Boîte v2 est ajoutée à l'application francetravail.io" % erreur.strip())
 
 
 def main():
     presse, etat_presse = section_presse(RSS)
-    emplois, etat_emplois = [], "API France Travail non configurée"
     recrutent, etat_recrutent = [], "API France Travail non configurée"
     ft_id = os.environ.get("FT_ID", "").strip()
     ft_secret = os.environ.get("FT_SECRET", "").strip()
     if ft_id and ft_secret:
         try:
-            token, domaine, scope = _ft_token(ft_id, ft_secret)
-            avec_offres = "offresdemploi" in scope
-            emplois, etat_emplois = section_emplois(token, domaine, avec_offres)
+            token, domaine = _ft_token(ft_id, ft_secret)
             recrutent, etat_recrutent = section_recrutent(token, domaine)
         except Exception as e:
-            etat_emplois = etat_recrutent = str(e)[:160]
+            etat_recrutent = str(e)[:160]
     coords = {}
     for x in recrutent:
         if not x.get("siren"):
@@ -303,20 +265,18 @@ def main():
         "_meta": {
             "maj": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "jours": JOURS,
-            "sources": {"presse": etat_presse, "emplois": etat_emplois, "recrutent": etat_recrutent},
-            "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE, entreprises qui recrutent (La Bonne Boîte), salons à venir. coords = coordonnées publiées par SIREN pour enrichir les fiches prospects.",
+            "sources": {"presse": etat_presse, "recrutent": etat_recrutent},
+            "note": "Signaux faibles : presse énergie/industrie filtrée, entreprises qui recrutent (La Bonne Boîte), salons à venir. coords = coordonnées publiées par SIREN pour enrichir les fiches prospects.",
         },
         "presse": presse,
-        "emplois": emplois,
         "recrutent": recrutent,
         "coords": coords,
         "salons": SALONS,
     }
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(doc, f, ensure_ascii=False, indent=1)
-    print("signaux.json : %d presse, %d emplois, %d recrutent, %d salons -> %s" % (len(presse), len(emplois), len(recrutent), len(SALONS), OUT))
+    print("signaux.json : %d presse, %d recrutent, %d salons -> %s" % (len(presse), len(recrutent), len(SALONS), OUT))
     print("presse:", etat_presse)
-    print("emplois:", etat_emplois)
     print("recrutent:", etat_recrutent)
 
 

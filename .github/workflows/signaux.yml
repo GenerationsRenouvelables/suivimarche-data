@@ -1,8 +1,8 @@
 name: signaux
 
 # Signaux faibles de prospection pour SuiviMarché -> signaux.json
-# (presse énergie/industrie filtrée par mots-clés, offres d'emploi énergie/RSE via l'API
-#  France Travail si les secrets FT_ID / FT_SECRET sont renseignés, salons à venir).
+# (presse énergie/industrie filtrée par mots-clés, entreprises qui recrutent via La Bonne
+#  Boîte v2 de France Travail si les secrets FT_ID / FT_SECRET sont renseignés, salons à venir).
 # Lancement manuel : Run workflow (inputs : jours de profondeur de la presse).
 
 on:
