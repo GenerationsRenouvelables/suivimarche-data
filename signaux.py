@@ -161,7 +161,7 @@ def section_emplois():
         return [], "API France Travail non configurée (secrets FT_ID / FT_SECRET absents du workflow)"
     requetes = ["responsable énergie", "chargé d'affaires photovoltaïque", "photovoltaïque", "RSE", "facility manager", "énergie bâtiment"]
     try:
-        token = _ft_token(ft_id, ft_secret)
+        token, domaine = _ft_token(ft_id, ft_secret)
     except Exception as e:
         return [], "erreur jeton France Travail: %s" % str(e)[:140]
     out = []
@@ -170,7 +170,7 @@ def section_emplois():
         for q in requetes:
             params = urllib.parse.urlencode({"q": q, "departement": ",".join(DEPS), "range": "0-39", "sort": "2"})
             req = urllib.request.Request(
-                "https://api.francetravail.io/partenaire/offresdemploi/v2/offres/search?" + params,
+                domaine + "/partenaire/offresdemploi/v2/offres/search?" + params,
                 headers={"Authorization": "Bearer " + token, "Accept": "application/json"})
             with urllib.request.urlopen(req, timeout=25) as r:
                 j = json.load(r)
@@ -193,14 +193,21 @@ def section_emplois():
 
 
 def _ft_token(ft_id, ft_secret):
+    """Jeton OAuth2 client_credentials ; essaie les deux portails (francetravail.io puis emploi.gouv.fr)."""
     import base64
     body = urllib.parse.urlencode({"grant_type": "client_credentials", "scope": "api_offresdemploi-v2 o2dsoffre"}).encode()
     basic = base64.b64encode(("%s:%s" % (ft_id, ft_secret)).encode()).decode()
-    req = urllib.request.Request("https://api.francetravail.io/partenaire/oauth2/token", data=body,
-                                 headers={"Authorization": "Basic " + basic,
-                                          "Content-Type": "application/x-www-form-urlencoded"})
-    with urllib.request.urlopen(req, timeout=20) as r:
-        return json.load(r)["access_token"]
+    errs = []
+    for domaine in ("https://api.francetravail.io", "https://api.emploi.gouv.fr"):
+        req = urllib.request.Request(domaine + "/partenaire/oauth2/token", data=body,
+                                     headers={"Authorization": "Basic " + basic,
+                                              "Content-Type": "application/x-www-form-urlencoded"})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                return json.load(r)["access_token"], domaine
+        except Exception as e:
+            errs.append("%s: %s" % (domaine, str(e)[:60]))
+    raise RuntimeError(" ; ".join(errs))
 
 
 def main():
