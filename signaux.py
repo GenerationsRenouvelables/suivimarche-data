@@ -21,6 +21,7 @@ import os
 import re
 import sys
 import time
+import urllib.error
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
@@ -62,8 +63,17 @@ SALONS = [
 ]
 
 DEPS = ["02", "08", "51", "54", "59", "62", "80"]  # périmètre Nord France de SuiviMarché
-PREFECTURES = {"02": "02000", "08": "08000", "51": "51000", "54": "54000", "59": "59000", "62": "62000", "80": "80000"}  # code INSEE
-SCOPES = os.environ.get("FT_SCOPES", "api_offresdemploi-v2 o2dsoffre api_labonneboite-v2").strip()
+# Jeton France Travail : serveur d'authentification entreprise.francetravail.fr (realm partenaire),
+# identifiants dans le corps de la requête ; les API elles-mêmes restent sur api.francetravail.io.
+FT_TOKEN_URL = "https://entreprise.francetravail.fr/connexion/oauth2/access_token?realm=%2Fpartenaire"
+FT_API = "https://api.francetravail.io"
+SCOPES_LBB = "api_labonneboitev2 search office"
+SCOPES = os.environ.get("FT_SCOPES", "api_offresdemploiv2 o2dsoffre " + SCOPES_LBB).strip()
+# La Bonne Boîte v2 impose un métier ou un secteur : grands domaines ROME ciblés
+# (H Industrie, N Transport et logistique, A Agriculture), hors intérim / placement (NAF 78).
+LBB_DOMAINES = [x for x in os.environ.get("LBB_DOMAINES", "H,N,A").replace(" ", "").split(",") if x]
+LBB_NAF_EXCLUS = ("78",)
+LBB_PAR_DEP = 10
 
 UA = {"User-Agent": "Mozilla/5.0 (compatible; SuiviMarche-relais/1.0; prospection signaux faibles)"}
 
@@ -189,56 +199,81 @@ def section_emplois(token, domaine, avec_offres):
 
 
 def section_recrutent(token, domaine):
-    """La Bonne Boîte v2 : entreprises à fort potentiel d'embauche autour des préfectures du périmètre."""
+    """La Bonne Boîte v2 (route /recherche) : établissements à fort potentiel d'embauche par département
+    du périmètre, dans les grands domaines LBB_DOMAINES. L'API ne publie ni téléphone ni site."""
     out = []
     try:
-        for dep, insee in PREFECTURES.items():
+        for dep in DEPS:
             time.sleep(0.6)   # limite La Bonne Boîte v2 : 2 appels/s
-            params = urllib.parse.urlencode({"commune": insee, "distance": 60})
+            params = urllib.parse.urlencode({"granddomain": LBB_DOMAINES, "department_number": dep,
+                                             "page_size": 100, "sort_by": "hiring_potential",
+                                             "sort_direction": "desc"}, doseq=True)
             req = urllib.request.Request(
-                domaine + "/partenaire/labonneboite/v2/entreprises/search?" + params,
+                domaine + "/partenaire/labonneboite/v2/recherche?" + params,
                 headers={"Authorization": "Bearer " + token, "Accept": "application/json"})
             try:
                 with urllib.request.urlopen(req, timeout=25) as r:
                     j = json.load(r)
             except Exception as e:
                 return [], "erreur La Bonne Boîte (%s): %s" % (dep, str(e)[:80])
-            for e in (j.get("entreprises") or [])[:20]:
+            vu_dep, n = set(), 0
+            for e in (j.get("items") or []):   # déjà triés par potentiel d'embauche décroissant
                 siret = str(e.get("siret") or "")
+                naf = str(e.get("naf") or "")
+                if not siret or siret in vu_dep or naf.startswith(LBB_NAF_EXCLUS):
+                    continue
+                vu_dep.add(siret)
+                nom = e.get("company_name") or e.get("office_name") or ""
+                ens = e.get("office_name") or ""
+                if ens and ens.upper() != nom.upper():
+                    nom = "%s (%s)" % (nom, ens)
+                hmin, hmax = e.get("headcount_min") or 0, e.get("headcount_max") or 0
+                score = e.get("hiring_potential")
                 out.append({
                     "siren": siret[:9], "siret": siret,
-                    "nom": html.unescape(e.get("enseigne") or e.get("nom") or e.get("raison_sociale") or ""),
-                    "adresse": html.unescape(" ".join(filter(None, [e.get("adresse"), e.get("code_postal"), e.get("commune")]))),
-                    "dep": dep, "taille": e.get("taille") or "", "score": e.get("score"),
-                    "naf": e.get("naf") or e.get("activite") or "", "tel": e.get("telephone") or "", "site": e.get("site_web") or "",
+                    "nom": html.unescape(nom),
+                    "adresse": html.unescape(" ".join(filter(None, [e.get("postcode"), e.get("city")]))),
+                    "dep": e.get("department_number") or dep,
+                    "taille": ("%d-%d" % (hmin, hmax)) if hmax else "",
+                    "score": round(score) if isinstance(score, (int, float)) else None,
+                    "naf": html.unescape(e.get("naf_label") or naf), "tel": "", "site": "",
                 })
+                n += 1
+                if n >= LBB_PAR_DEP:
+                    break
         # dédoublonne par SIRET, tri score décroissant
         vu, res = set(), []
         for x in sorted(out, key=lambda x: -(x.get("score") or 0)):
             if x["siret"] and x["siret"] not in vu:
                 vu.add(x["siret"]); res.append(x)
-        return res[:60], "ok (%d entreprises)" % len(res)
+        return res, "ok (%d entreprises)" % len(res)
     except Exception as e:
         return [], "erreur La Bonne Boîte: %s" % str(e)[:120]
 
 
 def _ft_token(ft_id, ft_secret):
-    """Jeton OAuth2 client_credentials (francetravail.io). Repli sur le scope La Bonne Boîte seul
+    """Jeton OAuth2 client_credentials (francetravail.io). Repli sur les scopes La Bonne Boîte seuls
     si l'application n'a pas encore l'API Offres d'emploi v2 -> retourne (token, domaine, scopes_ok)."""
-    import base64
-    basic = base64.b64encode(("%s:%s" % (ft_id, ft_secret)).encode()).decode()
-    domaine = "https://api.francetravail.io"
-    for scope in (SCOPES, "api_labonneboite-v2"):
-        body = urllib.parse.urlencode({"grant_type": "client_credentials", "scope": scope}).encode()
-        req = urllib.request.Request(domaine + "/partenaire/oauth2/token", data=body,
-                                     headers={"Authorization": "Basic " + basic,
-                                              "Content-Type": "application/x-www-form-urlencoded"})
+    erreur = ""
+    for scope in (SCOPES, SCOPES_LBB):
+        body = urllib.parse.urlencode({"grant_type": "client_credentials", "client_id": ft_id,
+                                       "client_secret": ft_secret, "scope": scope}).encode()
+        req = urllib.request.Request(FT_TOKEN_URL, data=body,
+                                     headers={"Content-Type": "application/x-www-form-urlencoded"})
         try:
             with urllib.request.urlopen(req, timeout=20) as r:
-                return json.load(r)["access_token"], domaine, scope
-        except Exception:
-            continue
-    raise RuntimeError("%s: 401 (vérifier que FT_ID/FT_SECRET sont le Client ID et la clé secrète de l'application francetravail.io concernée, et que ses API sont enregistrées)" % domaine)
+                return json.load(r)["access_token"], FT_API, scope
+        except urllib.error.HTTPError as e:
+            try:
+                code = json.loads(e.read().decode("utf-8", "replace")).get("error") or ""
+            except Exception:
+                code = ""
+            erreur = "HTTP %s %s" % (e.code, code)
+            if code == "invalid_client":   # identifiants refusés : inutile d'essayer d'autres scopes
+                raise RuntimeError("jeton France Travail refusé (invalid_client) : vérifier que FT_ID / FT_SECRET sont l'identifiant client et la clé secrète de l'application francetravail.io")
+        except Exception as e:
+            erreur = str(e)[:80]
+    raise RuntimeError("jeton France Travail refusé (%s) : vérifier que les API La Bonne Boîte v2 / Offres d'emploi v2 sont ajoutées à l'application francetravail.io" % erreur.strip())
 
 
 def main():
