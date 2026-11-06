@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "maj": "2026-11-06T16:04:36Z",
+  "maj": "2026-11-06T16:11:19Z",
   "jours": 30,
   "sources": {
    "presse": {
@@ -9,8 +9,8 @@
     "Les-EnR.eu": "ok (10 entrées lues)",
     "Révolution Énergétique": "ok (50 entrées lues)"
    },
-   "emplois": "https://api.francetravail.io: 401 (vérifier que FT_ID/FT_SECRET sont le Client ID et la clé secrète de l'application francetravail.io concernée, et que ses API ",
-   "recrutent": "https://api.francetravail.io: 401 (vérifier que FT_ID/FT_SECRET sont le Client ID et la clé secrète de l'application francetravail.io concernée, et que ses API "
+   "emplois": "API « Offres d'emploi v2 » non ajoutée à l'application francetravail.io (l'ajouter puis Enregistrer)",
+   "recrutent": "ok (67 entreprises)"
   },
   "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE, entreprises qui recrutent (La Bonne Boîte), salons à venir. coords = coordonnées publiées par SIREN pour enrichir les fiches prospects."
  },
@@ -161,8 +161,1038 @@
   }
  ],
  "emplois": [],
- "recrutent": [],
- "coords": {},
+ "recrutent": [
+  {
+   "siren": "665580072",
+   "siret": "66558007200197",
+   "nom": "BONDUELLE EUROPE LONG LIFE",
+   "adresse": "80200 Estrées-Mons",
+   "dep": "80",
+   "taille": "",
+   "score": 87,
+   "naf": "Autre transformation et conservation de légumes",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "665580072",
+   "siret": "66558007200247",
+   "nom": "BONDUELLE EUROPE LONG LIFE",
+   "adresse": "62159 Vaulx-Vraucourt",
+   "dep": "62",
+   "taille": "100-199",
+   "score": 84,
+   "naf": "Autre transformation et conservation de légumes",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "908421779",
+   "siret": "90842177900020",
+   "nom": "AESC FRANCE S.A.S. (ENVISION AESC)",
+   "adresse": "59552 Lambres-lez-Douai",
+   "dep": "59",
+   "taille": "10-19",
+   "score": 83,
+   "naf": "Fabrication de piles et d'accumulateurs électriques",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "665580072",
+   "siret": "66558007200288",
+   "nom": "BONDUELLE EUROPE LONG LIFE (BELL)",
+   "adresse": "80200 Estrées-Mons",
+   "dep": "80",
+   "taille": "500-999",
+   "score": 82,
+   "naf": "Autre transformation et conservation de légumes",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "948863501",
+   "siret": "94886350100029",
+   "nom": "GIGA VERKOR IMMO",
+   "adresse": "59630 Bourbourg",
+   "dep": "59",
+   "taille": "",
+   "score": 80,
+   "naf": "Fabrication de piles et d'accumulateurs électriques",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "323859249",
+   "siret": "32385924900035",
+   "nom": "SOCIETE DE DISTRIBUTION NOEUXOISE (CENTRE LECLERC)",
+   "adresse": "62290 Nœux-les-Mines",
+   "dep": "62",
+   "taille": "250-499",
+   "score": 74,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "180089013",
+   "siret": "18008901303993",
+   "nom": "CENTRE NATIONAL DE LA RECHERCHE SCIENTIF (CNRS MOY600 CENTRE EST)",
+   "adresse": "54500 Vandœuvre-lès-Nancy",
+   "dep": "54",
+   "taille": "1000-1999",
+   "score": 68,
+   "naf": "Recherche-développement en autres sciences physiques et naturelles",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "410409460",
+   "siret": "41040946000558",
+   "nom": "AUCHAN HYPERMARCHE (AUCHAN)",
+   "adresse": "59115 Leers",
+   "dep": "59",
+   "taille": "500-999",
+   "score": 67,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "410409460",
+   "siret": "41040946000111",
+   "nom": "AUCHAN HYPERMARCHE (AUCHAN)",
+   "adresse": "59223 Roncq",
+   "dep": "59",
+   "taille": "500-999",
+   "score": 64,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "576480099",
+   "siret": "57648009900059",
+   "nom": "DEROO TRANSPORTS",
+   "adresse": "62510 Arques",
+   "dep": "62",
+   "taille": "",
+   "score": 64,
+   "naf": "Transports routiers de fret interurbains",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "817403686",
+   "siret": "81740368600022",
+   "nom": "TRANSPORT IDIR MEDJBER",
+   "adresse": "54710 Fléville-devant-Nancy",
+   "dep": "54",
+   "taille": "50-99",
+   "score": 62,
+   "naf": "Transports routiers de fret de proximité",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "410409460",
+   "siret": "41040946000517",
+   "nom": "AUCHAN HYPERMARCHE (AUCHAN)",
+   "adresse": "59320 Englos",
+   "dep": "59",
+   "taille": "500-999",
+   "score": 62,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "804911592",
+   "siret": "80491159200025",
+   "nom": "ETAPLEDIS (E.LECLERC ETAPLES)",
+   "adresse": "62630 Étaples",
+   "dep": "62",
+   "taille": "100-199",
+   "score": 62,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "215900119",
+   "siret": "21590011900011",
+   "nom": "COMMUNE D ANNOEULLIN (MAIRIE Annoeullin)",
+   "adresse": "59112 Annœullin",
+   "dep": "59",
+   "taille": "200-249",
+   "score": 60,
+   "naf": "Administration publique générale",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "410206437",
+   "siret": "41020643700023",
+   "nom": "RENAULT ELECTRICITY",
+   "adresse": "59500 Douai",
+   "dep": "59",
+   "taille": "",
+   "score": 58,
+   "naf": "Construction de véhicules automobiles",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "180089013",
+   "siret": "18008901303894",
+   "nom": "CENTRE NATIONAL DE LA RECHERCHE SCIENTIF (CNRS MOY1800 HAUTS-DE-FRANCE)",
+   "adresse": "59800 Lille",
+   "dep": "59",
+   "taille": "500-999",
+   "score": 57,
+   "naf": "Recherche-développement en sciences humaines et sociales",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "530675222",
+   "siret": "53067522200224",
+   "nom": "LOGISTIQUE FRANCE SAS",
+   "adresse": "62141 Évin-Malmaison",
+   "dep": "62",
+   "taille": "",
+   "score": 57,
+   "naf": "Entreposage et stockage non frigorifique",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "841927619",
+   "siret": "84192761900038",
+   "nom": "TRANSPORTS ET COMPAGNIE",
+   "adresse": "02100 Saint-Quentin",
+   "dep": "02",
+   "taille": "",
+   "score": 56,
+   "naf": "Transports routiers de fret interurbains",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "885581033",
+   "siret": "88558103300218",
+   "nom": "REGIONALE LOCATION ET SERVICES TEXTILES (ELIS CALAIS)",
+   "adresse": "62137 Coulogne",
+   "dep": "62",
+   "taille": "100-199",
+   "score": 56,
+   "naf": "Location et location-bail d'autres biens personnels et domestiques",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "200005478",
+   "siret": "20000547800017",
+   "nom": "OPERA NATIONAL DE NANCY-LORRAINE",
+   "adresse": "54000 Nancy",
+   "dep": "54",
+   "taille": "100-199",
+   "score": 54,
+   "naf": "Arts du spectacle vivant",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "320204209",
+   "siret": "32020420900011",
+   "nom": "CONFLANS DISTRIBUTION (E.LECLERC)",
+   "adresse": "54800 Conflans-en-Jarnisy",
+   "dep": "54",
+   "taille": "200-249",
+   "score": 53,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "391166089",
+   "siret": "39116608900048",
+   "nom": "ASS RECUP'TRI",
+   "adresse": "62160 Aix-Noulette",
+   "dep": "62",
+   "taille": "",
+   "score": 53,
+   "naf": "Collecte des déchets non dangereux",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "892230269",
+   "siret": "89223026900037",
+   "nom": "LILOU LOGISTIQUE",
+   "adresse": "51100 Reims",
+   "dep": "51",
+   "taille": "",
+   "score": 52,
+   "naf": "Transports routiers de fret de proximité",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "776221467",
+   "siret": "77622146700140",
+   "nom": "GROUPE BIGARD (BIGARD ABATTOIR)",
+   "adresse": "51300 Marolles",
+   "dep": "51",
+   "taille": "100-199",
+   "score": 52,
+   "naf": "Transformation et conservation de la viande de boucherie",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "410409460",
+   "siret": "41040946000921",
+   "nom": "AUCHAN HYPERMARCHE (AUCHAN)",
+   "adresse": "54520 Laxou",
+   "dep": "54",
+   "taille": "250-499",
+   "score": 52,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "519037584",
+   "siret": "51903758413226",
+   "nom": "SNCF VOYAGEURS (TECHNICENTRE)",
+   "adresse": "59260 Lille",
+   "dep": "59",
+   "taille": "",
+   "score": 51,
+   "naf": "Transport ferroviaire interurbain de voyageurs",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "380368316",
+   "siret": "38036831600176",
+   "nom": "MAUFFREY SAS",
+   "adresse": "54200 Toul",
+   "dep": "54",
+   "taille": "100-199",
+   "score": 49,
+   "naf": "Transports routiers de fret interurbains",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "786920306",
+   "siret": "78692030600911",
+   "nom": "CORA",
+   "adresse": "62700 Bruay-la-Buissière",
+   "dep": "62",
+   "taille": "250-499",
+   "score": 46,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "892488438",
+   "siret": "89248843800029",
+   "nom": "ID LOGISTICS SELECTIVE 19",
+   "adresse": "80470 Saint-Sauveur",
+   "dep": "80",
+   "taille": "",
+   "score": 46,
+   "naf": "Entreposage et stockage non frigorifique",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "410409460",
+   "siret": "41040946000855",
+   "nom": "AUCHAN HYPERMARCHE (AUCHAN)",
+   "adresse": "80480 Dury",
+   "dep": "80",
+   "taille": "250-499",
+   "score": 46,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "379041395",
+   "siret": "37904139500052",
+   "nom": "FRAMATOME",
+   "adresse": "59460 Jeumont",
+   "dep": "59",
+   "taille": "500-999",
+   "score": 45,
+   "naf": "Fabrication d'autres pompes et compresseurs",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "338650898",
+   "siret": "33865089800020",
+   "nom": "TRANSPORTS MAUFFREY NORD",
+   "adresse": "62440 Harnes",
+   "dep": "62",
+   "taille": "100-199",
+   "score": 43,
+   "naf": "Transports routiers de fret interurbains",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "525118261",
+   "siret": "52511826100045",
+   "nom": "QUIPMENT",
+   "adresse": "54100 Nancy",
+   "dep": "54",
+   "taille": "100-199",
+   "score": 39,
+   "naf": "Location et location-bail d'autres biens personnels et domestiques",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "948540828",
+   "siret": "94854082800027",
+   "nom": "LUVI",
+   "adresse": "51480 Venteuil",
+   "dep": "51",
+   "taille": "",
+   "score": 38,
+   "naf": "Services des traiteurs",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "215405473",
+   "siret": "21540547300012",
+   "nom": "COMMUNE DE VANDOEUVRE LES NANCY (MAIRIE)",
+   "adresse": "54500 Vandœuvre-lès-Nancy",
+   "dep": "54",
+   "taille": "500-999",
+   "score": 35,
+   "naf": "Administration publique générale",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "786920306",
+   "siret": "78692030600879",
+   "nom": "CORA",
+   "adresse": "51350 Cormontreuil",
+   "dep": "51",
+   "taille": "250-499",
+   "score": 34,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "343262622",
+   "siret": "34326262226003",
+   "nom": "LIDL",
+   "adresse": "54840 Gondreville",
+   "dep": "54",
+   "taille": "",
+   "score": 33,
+   "naf": "Entreposage et stockage frigorifique",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "343262622",
+   "siret": "34326262226144",
+   "nom": "LIDL",
+   "adresse": "62120 Saint-Augustin",
+   "dep": "62",
+   "taille": "",
+   "score": 31,
+   "naf": "Entreposage et stockage frigorifique",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "309345643",
+   "siret": "30934564300022",
+   "nom": "ROYE DISTRIBUTION",
+   "adresse": "80700 Roye",
+   "dep": "80",
+   "taille": "50-99",
+   "score": 31,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "410409460",
+   "siret": "41040946001820",
+   "nom": "AUCHAN HYPERMARCHE (AUCHAN)",
+   "adresse": "54350 Mont-Saint-Martin",
+   "dep": "54",
+   "taille": "250-499",
+   "score": 30,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "953105764",
+   "siret": "95310576400021",
+   "nom": "2C LOG",
+   "adresse": "51520 Saint-Martin-sur-le-Pré",
+   "dep": "51",
+   "taille": "",
+   "score": 28,
+   "naf": "Affrètement et organisation des transports",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "812914794",
+   "siret": "81291479400035",
+   "nom": "GUEUDET PR NORD",
+   "adresse": "80440 Boves",
+   "dep": "80",
+   "taille": "",
+   "score": 28,
+   "naf": "Commerce de détail d'équipements automobiles",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "451321335",
+   "siret": "45132133500379",
+   "nom": "CARREFOUR HYPERMARCHES",
+   "adresse": "51430 Tinqueux",
+   "dep": "51",
+   "taille": "200-249",
+   "score": 25,
+   "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "330189028",
+   "siret": "33018902800021",
+   "nom": "NORIAP",
+   "adresse": "80440 Boves",
+   "dep": "80",
+   "taille": "250-499",
+   "score": 24,
+   "naf": "Commerce de gros (commerce interentreprises) de céréales, de tabac non manufacturé, de semences et d'aliments pour le bétail",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "775688732",
+   "siret": "77568873206209",
+   "nom": "APF FRANCE HANDICAP",
+   "adresse": "51100 Reims",
+   "dep": "51",
+   "taille": "100-199",
+   "score": 21,
+   "naf": "Aide par le travail",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "537517765",
+   "siret": "53751776500039",
+   "nom": "PERRENOT CHAMPAGNE",
+   "adresse": "51520 Saint-Martin-sur-le-Pré",
+   "dep": "51",
+   "taille": "50-99",
+   "score": 19,
+   "naf": "Transports routiers de fret de proximité",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "982153264",
+   "siret": "98215326400030",
+   "nom": "BEAUTY CHAMPAGNE-ARDENNES",
+   "adresse": "51100 Reims",
+   "dep": "51",
+   "taille": "",
+   "score": 18,
+   "naf": "Fabrication de parfums et de produits pour la toilette",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "517458931",
+   "siret": "51745893100014",
+   "nom": "CUFAY LOGISTIQUE ET SERVICES  CLS",
+   "adresse": "80100 Abbeville",
+   "dep": "80",
+   "taille": "",
+   "score": 17,
+   "naf": "Entreposage et stockage non frigorifique",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "452049166",
+   "siret": "45204916600021",
+   "nom": "STV",
+   "adresse": "51200 Épernay",
+   "dep": "51",
+   "taille": "10-19",
+   "score": 16,
+   "naf": "Activités de soutien aux cultures",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "888525615",
+   "siret": "88852561500033",
+   "nom": "MFP",
+   "adresse": "08400 Vouziers",
+   "dep": "08",
+   "taille": "3-5",
+   "score": 14,
+   "naf": "Travaux de menuiserie bois et PVC",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "775688732",
+   "siret": "77568873202406",
+   "nom": "APF FRANCE HANDICAP (ENTREPRISE ADAPTEE P FLOUCAULT)",
+   "adresse": "80080 Amiens",
+   "dep": "80",
+   "taille": "100-199",
+   "score": 14,
+   "naf": "Aide par le travail",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "780997334",
+   "siret": "78099733400039",
+   "nom": "LABONOR - LABORATOIRE INTERPROFESSIONNEL",
+   "adresse": "02260 La Capelle",
+   "dep": "02",
+   "taille": "",
+   "score": 12,
+   "naf": "Analyses, essais et inspections techniques",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "482265451",
+   "siret": "48226545100021",
+   "nom": "RIVERY EXPLOITATION (LECLERC)",
+   "adresse": "80440 Boves",
+   "dep": "80",
+   "taille": "10-19",
+   "score": 11,
+   "naf": "Vente à distance sur catalogue général",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "320955396",
+   "siret": "32095539601411",
+   "nom": "RUBIX FRANCE (RUBIX PLOISY - POLE GRANDS COMPTES)",
+   "adresse": "02200 Ploisy",
+   "dep": "02",
+   "taille": "50-99",
+   "score": 8,
+   "naf": "Commerce de gros (commerce interentreprises) de fournitures et équipements industriels divers",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "900797861",
+   "siret": "90079786100029",
+   "nom": "MEB MARKET (MARCHE AUX AFFAIRES)",
+   "adresse": "02170 Le Nouvion-en-Thiérache",
+   "dep": "02",
+   "taille": "",
+   "score": 8,
+   "naf": "Commerce de gros (commerce interentreprises) d'autres biens domestiques",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "397732132",
+   "siret": "39773213200048",
+   "nom": "ARZEL",
+   "adresse": "02400 Bézu-Saint-Germain",
+   "dep": "02",
+   "taille": "10-19",
+   "score": 7,
+   "naf": "Travaux de menuiserie métallique et serrurerie",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "489466755",
+   "siret": "48946675500118",
+   "nom": "MARRON T.P.",
+   "adresse": "02210 Oulchy-le-Château",
+   "dep": "02",
+   "taille": "",
+   "score": 6,
+   "naf": "Construction de réseaux pour fluides",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "799738315",
+   "siret": "79973831500172",
+   "nom": "VIMO",
+   "adresse": "02150 Sissonne",
+   "dep": "02",
+   "taille": "",
+   "score": 6,
+   "naf": "Autres commerces de détail spécialisés divers",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "942173444",
+   "siret": "94217344400020",
+   "nom": "GF SURGELES CONDREN (PICARD)",
+   "adresse": "02700 Condren",
+   "dep": "02",
+   "taille": "",
+   "score": 6,
+   "naf": "Commerce de détail de produits surgelés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "344264460",
+   "siret": "34426446000082",
+   "nom": "VOYAGES FOURNIER",
+   "adresse": "08300 Rethel",
+   "dep": "08",
+   "taille": "",
+   "score": 6,
+   "naf": "Activités des agences de voyage",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "527615397",
+   "siret": "52761539700041",
+   "nom": "FORGEX FRANCE",
+   "adresse": "08120 Bogny-sur-Meuse",
+   "dep": "08",
+   "taille": "",
+   "score": 6,
+   "naf": "Forge, estampage, matriçage ; métallurgie des poudres",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "493254908",
+   "siret": "49325490800145",
+   "nom": "SMURFIT WESTROCK FRANCE",
+   "adresse": "08300 Rethel",
+   "dep": "08",
+   "taille": "100-199",
+   "score": 5,
+   "naf": "Fabrication de carton ondulé",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "993799204",
+   "siret": "99379920400017",
+   "nom": "SERRURERIE DEHU",
+   "adresse": "02600 Faverolles",
+   "dep": "02",
+   "taille": "",
+   "score": 4,
+   "naf": "Travaux de menuiserie métallique et serrurerie",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "480470152",
+   "siret": "48047015200137",
+   "nom": "NORAUTO FRANCE (NORAUTO)",
+   "adresse": "08000 Villers-Semeuse",
+   "dep": "08",
+   "taille": "20-49",
+   "score": 3,
+   "naf": "Commerce de détail d'équipements automobiles",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "347926719",
+   "siret": "34792671903195",
+   "nom": "KING JOUET",
+   "adresse": "08000 Les Ayvelles",
+   "dep": "08",
+   "taille": "",
+   "score": 3,
+   "naf": "Commerce de détail de jeux et jouets en magasin spécialisé",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "779463223",
+   "siret": "77946322300494",
+   "nom": "LA BOITE A OUTILS (L ENTREPOT DU BRICOLAGE)",
+   "adresse": "02400 Château-Thierry",
+   "dep": "02",
+   "taille": "50-99",
+   "score": 2,
+   "naf": "Commerce de détail de quincaillerie, peintures et verres en grandes surfaces (400 m2et plus)",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "921886214",
+   "siret": "92188621400037",
+   "nom": "MOBILUX CONFO DEVELOPPEMENT (CONFORAMA)",
+   "adresse": "08600 Givet",
+   "dep": "08",
+   "taille": "",
+   "score": 2,
+   "naf": "Commerce de détail de meubles",
+   "tel": "",
+   "site": ""
+  }
+ ],
+ "coords": {
+  "665580072": {
+   "adresse": "80200 Estrées-Mons",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "908421779": {
+   "adresse": "59552 Lambres-lez-Douai",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "948863501": {
+   "adresse": "59630 Bourbourg",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "323859249": {
+   "adresse": "62290 Nœux-les-Mines",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "180089013": {
+   "adresse": "54500 Vandœuvre-lès-Nancy",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "410409460": {
+   "adresse": "59115 Leers",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "576480099": {
+   "adresse": "62510 Arques",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "817403686": {
+   "adresse": "54710 Fléville-devant-Nancy",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "804911592": {
+   "adresse": "62630 Étaples",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "215900119": {
+   "adresse": "59112 Annœullin",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "410206437": {
+   "adresse": "59500 Douai",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "530675222": {
+   "adresse": "62141 Évin-Malmaison",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "841927619": {
+   "adresse": "02100 Saint-Quentin",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "885581033": {
+   "adresse": "62137 Coulogne",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "200005478": {
+   "adresse": "54000 Nancy",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "320204209": {
+   "adresse": "54800 Conflans-en-Jarnisy",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "391166089": {
+   "adresse": "62160 Aix-Noulette",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "892230269": {
+   "adresse": "51100 Reims",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "776221467": {
+   "adresse": "51300 Marolles",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "519037584": {
+   "adresse": "59260 Lille",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "380368316": {
+   "adresse": "54200 Toul",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "786920306": {
+   "adresse": "62700 Bruay-la-Buissière",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "892488438": {
+   "adresse": "80470 Saint-Sauveur",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "379041395": {
+   "adresse": "59460 Jeumont",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "338650898": {
+   "adresse": "62440 Harnes",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "525118261": {
+   "adresse": "54100 Nancy",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "948540828": {
+   "adresse": "51480 Venteuil",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "215405473": {
+   "adresse": "54500 Vandœuvre-lès-Nancy",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "343262622": {
+   "adresse": "54840 Gondreville",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "309345643": {
+   "adresse": "80700 Roye",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "953105764": {
+   "adresse": "51520 Saint-Martin-sur-le-Pré",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "812914794": {
+   "adresse": "80440 Boves",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "451321335": {
+   "adresse": "51430 Tinqueux",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "330189028": {
+   "adresse": "80440 Boves",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "775688732": {
+   "adresse": "51100 Reims",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "537517765": {
+   "adresse": "51520 Saint-Martin-sur-le-Pré",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "982153264": {
+   "adresse": "51100 Reims",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "517458931": {
+   "adresse": "80100 Abbeville",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "452049166": {
+   "adresse": "51200 Épernay",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "888525615": {
+   "adresse": "08400 Vouziers",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "780997334": {
+   "adresse": "02260 La Capelle",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "482265451": {
+   "adresse": "80440 Boves",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "320955396": {
+   "adresse": "02200 Ploisy",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "900797861": {
+   "adresse": "02170 Le Nouvion-en-Thiérache",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "397732132": {
+   "adresse": "02400 Bézu-Saint-Germain",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "489466755": {
+   "adresse": "02210 Oulchy-le-Château",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "799738315": {
+   "adresse": "02150 Sissonne",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "942173444": {
+   "adresse": "02700 Condren",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "344264460": {
+   "adresse": "08300 Rethel",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "527615397": {
+   "adresse": "08120 Bogny-sur-Meuse",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "493254908": {
+   "adresse": "08300 Rethel",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "993799204": {
+   "adresse": "02600 Faverolles",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "480470152": {
+   "adresse": "08000 Villers-Semeuse",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "347926719": {
+   "adresse": "08000 Les Ayvelles",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "779463223": {
+   "adresse": "02400 Château-Thierry",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "921886214": {
+   "adresse": "08600 Givet",
+   "source": "La Bonne Boîte v2 (recrute)"
+  }
+ },
  "salons": [
   {
    "nom": "Salon des Maires et des Collectivités",
