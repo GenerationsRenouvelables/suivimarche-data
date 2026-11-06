@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "maj": "2026-11-06T15:11:44Z",
+  "maj": "2026-11-06T15:13:19Z",
   "jours": 30,
   "sources": {
    "presse": {
@@ -9,7 +9,7 @@
     "Les-EnR.eu": "ok (10 entrées lues)",
     "Révolution Énergétique": "ok (50 entrées lues)"
    },
-   "emplois": "API France Travail non configurée (secrets FT_ID / FT_SECRET absents du workflow)"
+   "emplois": "erreur jeton France Travail: HTTP Error 401: Unauthorized"
   },
   "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE (si API configurée), salons à venir."
  },
