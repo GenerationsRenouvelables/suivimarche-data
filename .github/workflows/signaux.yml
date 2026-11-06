@@ -1,0 +1,45 @@
+name: signaux
+
+# Signaux faibles de prospection pour SuiviMarché -> signaux.json
+# (presse énergie/industrie filtrée par mots-clés, offres d'emploi énergie/RSE via l'API
+#  France Travail si les secrets FT_ID / FT_SECRET sont renseignés, salons à venir).
+# Lancement manuel : Run workflow (inputs : jours de profondeur de la presse).
+
+on:
+  schedule:
+    - cron: '15 6 * * 1'   # chaque lundi à 06:15 UTC (08:15 à Paris en été)
+  workflow_dispatch:
+    inputs:
+      jours:
+        description: 'Profondeur de la veille presse en jours'
+        type: string
+        default: '30'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: signaux
+  cancel-in-progress: false
+
+jobs:
+  signaux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Calcul des signaux
+        env:
+          SIGNAUX_JOURS: ${{ inputs.jours || '30' }}
+          FT_ID: ${{ secrets.FT_ID }}
+          FT_SECRET: ${{ secrets.FT_SECRET }}
+        run: python signaux.py
+      - name: Publication
+        run: |
+          git config user.name 'relais-bot'
+          git config user.email 'relais-bot@users.noreply.github.com'
+          git add signaux.json
+          if git diff --cached --quiet; then echo 'Aucun changement'; else git commit -m "Signaux faibles du $(date -u +%F)" && git pull --rebase && git push; fi

@@ -1,0 +1,191 @@
+{
+ "_meta": {
+  "maj": "2026-11-06T14:40:13Z",
+  "jours": 30,
+  "sources": {
+   "presse": {
+    "GreenUnivers": "ok (10 entrées lues)",
+    "Actu-Environnement": "ok (6 entrées lues)",
+    "Les-EnR.eu": "ok (10 entrées lues)",
+    "Révolution Énergétique": "ok (50 entrées lues)"
+   },
+   "emplois": "API France Travail non configurée (secrets FT_ID / FT_SECRET absents)"
+  },
+  "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE (si API configurée), salons à venir."
+ },
+ "presse": [
+  {
+   "titre": "Les contours du premier appel à projets dans l’hydrogène naturel",
+   "source": "GreenUnivers",
+   "date": "2026-11-05",
+   "url": "https://www.greenunivers.com/2026/11/les-contours-du-premier-appel-a-projets-dans-lhydrogene-naturel-437938/",
+   "mots": [
+    "appel à projets"
+   ],
+   "extrait": "Le directeur de la DGEC, Cédric Bourillet, vient d’annoncer sur Linkedin le lancement d’un appel à projets pour l’hydrogène natif, naturel ou blanc, c&#8217;est-à-dire naturellement présent dans le sous-sol. Les contours du dispositif n’ont pas encore été dévoilés. Selon nos informations, il L’artic"
+  },
+  {
+   "titre": "L’État supprime le programme d’aides aux collectivités pour la rénovation thermique des bâtiments publics",
+   "source": "Révolution Énergétique",
+   "date": "2026-11-05",
+   "url": "https://www.revolution-energetique.com/actus/letat-supprime-le-programme-daides-aux-collectivites-pour-la-renovation-thermique-des-batiments-publics/",
+   "mots": [
+    "prime"
+   ],
+   "extrait": "Le gouvernement vient d&#8217;abandonner un programme d&#233;di&#233; &#224; l&#8217;accompagnement des collectivit&#233;s pour la r&#233;novation &#233;nerg&#233;tique des b&#226;timents publics, qui avait d&#233;j&#224; profit&#233; &#224; presque 8000 [&#8230;] L’article L’État supprime le progra"
+  },
+  {
+   "titre": "Comment les renouvelables se mobilisent contre la révision des tarifs solaires",
+   "source": "GreenUnivers",
+   "date": "2026-11-04",
+   "url": "https://www.greenunivers.com/2026/11/comment-les-renouvelables-se-mobilisent-contre-la-revision-des-tarifs-solaires-437868/",
+   "mots": [
+    "solaire"
+   ],
+   "extrait": "En commission fin octobre, les députés ont supprimé l’article 82 du projet de loi de finances, qui prévoyait la révision rétroactive des tarifs S6, S10 et surtout S21 sur les toitures solaires de 300 à 500 kWc. La filière a gagné une première bataille, mais pas la guerre. Malgré les pressions des fi"
+  },
+  {
+   "titre": "Décarbonation de l’industrie, un relais de croissance pour les EnR [Dossier]",
+   "source": "GreenUnivers",
+   "date": "2026-11-04",
+   "url": "https://www.greenunivers.com/2026/11/decarbonation-de-lindustrie-un-relais-de-croissance-pour-les-enr-dossier-437754/",
+   "mots": [
+    "décarbonation"
+   ],
+   "extrait": "Quel est le potentiel du marché de la décarbonation de l&#8217;industrie ? Et comment prendre la vague ? C&#8217;est ce que GreenUnivers a voulu identifier dans une enquête en quatre volets. Sur le papier, le débouché paraît évident pour les producteurs d&#8217;énergies renouvelables alors que les p"
+  },
+  {
+   "titre": "Au Mans, Radiant ressuscite la centrale solaire à concentration",
+   "source": "GreenUnivers",
+   "date": "2026-11-04",
+   "url": "https://www.greenunivers.com/2026/11/au-mans-radiant-ressuscite-la-centrale-solaire-a-concentration-437771/",
+   "mots": [
+    "solaire"
+   ],
+   "extrait": "Reportage &#8211; « Ils ont vraiment construit très vite cette centrale », se réjouit Maxime Brousse, spécialiste de l’énergie au start-up studio Hexa. Après avoir misé 500 000€ l’année dernière sur la jeune pousse du solaire Radiant, l&#8217;investisseur assistait ce matin au Mans (Sarthe), en comp"
+  },
+  {
+   "titre": "Voiture électrique : pourquoi deux conducteurs sur trois ne programment toujours pas leur recharge",
+   "source": "Révolution Énergétique",
+   "date": "2026-11-03",
+   "url": "https://www.revolution-energetique.com/actus/voiture-electrique-pourquoi-deux-conducteurs-sur-trois-ne-programment-toujours-pas-leur-recharge/",
+   "mots": [
+    "enedis"
+   ],
+   "extrait": "La part des conducteurs de voitures &#233;lectriques qui programment leur recharge &#224; domicile ne d&#233;colle pas, selon une enqu&#234;te d&#8217;Enedis. Un curieux comportement, alors que [&#8230;] L’article Voiture électrique : pourquoi deux conducteurs sur trois ne programment toujours pas l"
+  },
+  {
+   "titre": "Cette entreprise veut décarboner la chaleur industrielle grâce au solaire",
+   "source": "Révolution Énergétique",
+   "date": "2026-10-29",
+   "url": "https://www.revolution-energetique.com/actus/cette-entreprise-veut-decarboner-la-chaleur-industrielle-grace-au-solaire/",
+   "mots": [
+    "solaire",
+    "décarboner"
+   ],
+   "extrait": "La chaleur industrielle est l&#8217;un des gros enjeux de la d&#233;carbonation. Des solutions existent, mais ont toutes leur lot d&#8217;inconv&#233;nients : co&#251;ts &#233;lev&#233;s, difficult&#233; de [&#8230;] L’article Cette entreprise veut décarboner la chaleur industrielle grâce au solaire"
+  },
+  {
+   "titre": "Fenêtres, combles, VMC : ce que le nouveau régime MaPrimeRénov’ change depuis septembre 2026",
+   "source": "Révolution Énergétique",
+   "date": "2026-10-27",
+   "url": "https://www.revolution-energetique.com/actus/fenetres-combles-vmc-ce-que-le-nouveau-regime-maprimerenov-change-depuis-septembre-2026/",
+   "mots": [
+    "prime"
+   ],
+   "extrait": "Depuis le 1er septembre 2026, plusieurs travaux courants comme l&#8217;isolation des combles ou le remplacement des fen&#234;tres ne sont plus finan&#231;ables en geste isol&#233;. Ce [&#8230;] L’article Fenêtres, combles, VMC : ce que le nouveau régime MaPrimeRénov&rsquo; change depuis septembre 20"
+  },
+  {
+   "titre": "Cette entreprise va toucher 180 000 € par an grâce à sa toiture solaire",
+   "source": "Révolution Énergétique",
+   "date": "2026-10-25",
+   "url": "https://www.revolution-energetique.com/actus/cette-entreprise-va-toucher-180-000-e-par-an-grace-a-sa-toiture-solaire/",
+   "mots": [
+    "solaire"
+   ],
+   "extrait": "En emm&#233;nageant dans de nouveaux locaux plus grands, la coop&#233;rative lyonnaise Articop a fait d&#8217;une pierre deux coups. Outre le fait de disposer d&#8217;une plus [&#8230;] L’article Cette entreprise va toucher 180 000 € par an grâce à sa toiture solaire est apparu en premier sur Révolu"
+  },
+  {
+   "titre": "Et si passer au solaire coûtait moins cher ? Ensol mise sur la location",
+   "source": "Révolution Énergétique",
+   "date": "2026-10-22",
+   "url": "https://www.revolution-energetique.com/actus/et-si-passer-au-solaire-coutait-moins-cher-ensol-mise-sur-la-location/",
+   "mots": [
+    "solaire",
+    "autoconsommation"
+   ],
+   "extrait": "Installer des panneaux solaires sans investir plusieurs milliers d&#8217;euros d&#8217;un coup : Ensol propose une formule de location pour rendre l&#8217;autoconsommation plus accessible. Le photovolta&#239;que [&#8230;] L’article Et si passer au solaire coûtait moins cher ? Ensol mise sur la locat"
+  },
+  {
+   "titre": "Le prix de l’électricité solaire dégringole : 61 €/MWh, un tarif historiquement bas",
+   "source": "Révolution Énergétique",
+   "date": "2026-10-17",
+   "url": "https://www.revolution-energetique.com/actus/le-prix-de-lelectricite-solaire-degringole-61-e-mwh-un-tarif-historiquement-bas/",
+   "mots": [
+    "solaire"
+   ],
+   "extrait": "La neuvi&#232;me session de l&#8217;appel d&#8217;offres solaire au sol a eu du succ&#232;s, c&#8217;est le moins qu&#8217;on puisse dire, avec six fois la puissance demand&#233;e [&#8230;] L’article Le prix de l&rsquo;électricité solaire dégringole : 61 €/MWh, un tarif historiquement bas est apparu"
+  },
+  {
+   "titre": "Stockage d’électricité : le chantier d’extension de la STEP de Montézic a commencé",
+   "source": "Révolution Énergétique",
+   "date": "2026-10-12",
+   "url": "https://www.revolution-energetique.com/actus/montezic-2-edf-galeries-reconnaissance-nge/",
+   "mots": [
+    "extension"
+   ],
+   "extrait": "Dans l&#8217;Aveyron, EDF lance les premiers coups de pioche du colossal projet d&#8217;extension de la station de pompage-turbinage de Mont&#233;zic. Ce chantier, qui consiste notamment [&#8230;] L’article Stockage d&rsquo;électricité : le chantier d&rsquo;extension de la STEP de Montézic a commenc"
+  }
+ ],
+ "emplois": [],
+ "salons": [
+  {
+   "nom": "Salon des Maires et des Collectivités",
+   "dates": "novembre (annuel)",
+   "lieu": "Paris Porte de Versailles",
+   "url": "https://www.salondesmaires.com/",
+   "exposants": "https://www.salondesmaires.com/liste-exposants/",
+   "theme": "collectivités, énergie, bâtiment"
+  },
+  {
+   "nom": "EnerJ Meeting Paris",
+   "dates": "février (annuel)",
+   "lieu": "Paris",
+   "url": "https://www.enerj-meeting.com/paris",
+   "exposants": "https://www.enerj-meeting.com/exposants",
+   "theme": "efficacité énergétique et EnR du bâtiment"
+  },
+  {
+   "nom": "EnerJ Meeting Lyon",
+   "dates": "juin (annuel)",
+   "lieu": "Lyon",
+   "url": "https://www.enerj-meeting.com/lyon",
+   "exposants": "https://www.enerj-meeting.com/exposants",
+   "theme": "efficacité énergétique et EnR du bâtiment"
+  },
+  {
+   "nom": "Pollutec",
+   "dates": "décembre (biennal)",
+   "lieu": "Lyon Eurexpo",
+   "url": "https://www.pollutec.com/",
+   "exposants": "https://www.pollutec.com/fr/exposants",
+   "theme": "environnement, énergie, déchets"
+  },
+  {
+   "nom": "BePositive",
+   "dates": "mars (annuel)",
+   "lieu": "Lyon Eurexpo",
+   "url": "https://www.bepositive-event.com/",
+   "exposants": "https://www.bepositive-event.com/",
+   "theme": "énergies renouvelables, solaire"
+  },
+  {
+   "nom": "Global Industrie",
+   "dates": "mars (annuel)",
+   "lieu": "Paris / Lyon",
+   "url": "https://www.global-industrie.com/",
+   "exposants": "https://www.global-industrie.com/",
+   "theme": "industrie, sous-traitance, énergie"
+  }
+ ]
+}

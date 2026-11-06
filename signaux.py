@@ -1,0 +1,218 @@
+#!/usr/bin/env python3
+"""Signaux faibles de prospection pour SuiviMarché -> signaux.json (lu via RELAIS_URL).
+
+Trois sections, aucune clé obligatoire (bibliothèque standard uniquement) :
+- presse : flux RSS de médias énergie / industrie, filtrés par mots-clés
+  (solaire, ombrières, ISO 14001/50001, recrutements énergie/RSE, agrandissements...) ;
+- emplois : API France Travail (api.francetravail.io) SI les variables d'environnement
+  FT_ID et FT_SECRET sont renseignées (secrets GitHub du dépôt), offres « énergie »,
+  « photovoltaïque », « RSE », « facility manager » des départements du périmètre,
+  publiées dans les 7 derniers jours ; sinon section vide avec une note ;
+- salons : événements à venir du secteur (date/lieu/lien vers la liste des exposants).
+
+Le fichier est poussé tel quel ; _meta indique quelles sources ont répondu.
+Lancement manuel : python signaux.py ; variables : SIGNAUX_JOURS (défaut 30), SIGNAUX_MAX (défaut 60).
+"""
+
+import datetime as dt
+import json
+import os
+import re
+import sys
+import urllib.request
+import xml.etree.ElementTree as ET
+
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signaux.json")
+
+JOURS = int(os.environ.get("SIGNAUX_JOURS", "30"))
+MAX = int(os.environ.get("SIGNAUX_MAX", "60"))
+
+RSS = [
+    ("GreenUnivers", "https://www.greenunivers.com/feed/"),
+    ("Actu-Environnement", "https://www.actu-environnement.com/rss/"),
+    ("Les-EnR.eu", "https://www.les-energies-renouvelables.eu/feed/"),
+    ("Révolution Énergétique", "https://www.revolution-energetique.com/feed/"),
+]
+
+MOTS = [
+    "photovoltaïque", "photovoltaique", "solaire", "ombrière", "ombrières",
+    "autoconsommation", "iso 14001", "iso 50001", "responsable énergie",
+    "responsable rse", "chargé d'affaires solaire", "facility manager",
+    "recrutement", "recrute", "agrandissement", "extension", "nouvelle usine",
+    "raccordement", "enedis", "appel à projets", "appel à manifestation",
+    "bilan ges", "décarbonation", "décarboner", "prime", "prime à l'autoconsommation",
+]
+
+SALONS = [
+    {"nom": "Salon des Maires et des Collectivités", "dates": "novembre (annuel)", "lieu": "Paris Porte de Versailles",
+     "url": "https://www.salondesmaires.com/", "exposants": "https://www.salondesmaires.com/liste-exposants/", "theme": "collectivités, énergie, bâtiment"},
+    {"nom": "EnerJ Meeting Paris", "dates": "février (annuel)", "lieu": "Paris",
+     "url": "https://www.enerj-meeting.com/paris", "exposants": "https://www.enerj-meeting.com/exposants", "theme": "efficacité énergétique et EnR du bâtiment"},
+    {"nom": "EnerJ Meeting Lyon", "dates": "juin (annuel)", "lieu": "Lyon",
+     "url": "https://www.enerj-meeting.com/lyon", "exposants": "https://www.enerj-meeting.com/exposants", "theme": "efficacité énergétique et EnR du bâtiment"},
+    {"nom": "Pollutec", "dates": "décembre (biennal)", "lieu": "Lyon Eurexpo",
+     "url": "https://www.pollutec.com/", "exposants": "https://www.pollutec.com/fr/exposants", "theme": "environnement, énergie, déchets"},
+    {"nom": "BePositive", "dates": "mars (annuel)", "lieu": "Lyon Eurexpo",
+     "url": "https://www.bepositive-event.com/", "exposants": "https://www.bepositive-event.com/", "theme": "énergies renouvelables, solaire"},
+    {"nom": "Global Industrie", "dates": "mars (annuel)", "lieu": "Paris / Lyon",
+     "url": "https://www.global-industrie.com/", "exposants": "https://www.global-industrie.com/", "theme": "industrie, sous-traitance, énergie"},
+]
+
+DEPS = ["02", "08", "51", "54", "59", "62", "80"]  # périmètre Nord France de SuiviMarché
+
+UA = {"User-Agent": "Mozilla/5.0 (compatible; SuiviMarche-relais/1.0; prospection signaux faibles)"}
+
+
+def fetch(url, timeout=25):
+    req = urllib.request.Request(url, headers=UA)
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read()
+
+
+def parse_rss(data):
+    """Entrées RSS/Atom -> liste de dicts (titre, lien, date, resume)."""
+    out = []
+    try:
+        root = ET.fromstring(data)
+    except ET.ParseError:
+        return out
+    ns = {"atom": "http://www.w3.org/2005/Atom", "dc": "http://purl.org/dc/elements/1.1/"}
+    items = root.findall(".//item") or root.findall(".//atom:entry", ns)
+    for it in items:
+        def g(tag):
+            e = it.find(tag)
+            if e is None:
+                e = it.find("atom:" + tag, ns)
+            return (e.text or "").strip() if e is not None and e.text else ""
+        titre = g("title")
+        lien = g("link")
+        if not lien:
+            e = it.find("atom:link", ns)
+            lien = e.get("href", "") if e is not None else ""
+        pub = g("pubDate") or g("published") or g("updated") or ""
+        if not pub:
+            e = it.find("dc:date", ns)
+            pub = (e.text or "") if e is not None and e.text else ""
+        resume = g("description") or g("summary")
+        resume = re.sub(r"<[^>]+>", " ", resume)
+        resume = re.sub(r"\s+", " ", resume).strip()[:300]
+        out.append({"titre": titre, "url": lien, "date": parse_date(pub), "extrait": resume})
+    return out
+
+
+def parse_date(pub):
+    """RFC822 (RSS) ou ISO (Atom) -> 'AAAA-MM-JJ' ou '' si illisible."""
+    if not pub:
+        return ""
+    p = pub.strip()
+    try:
+        import email.utils
+        d = email.utils.parsedate_to_datetime(p)
+        if d:
+            if d.tzinfo is None:
+                d = d.replace(tzinfo=dt.timezone.utc)
+            return d.astimezone(dt.timezone.utc).strftime("%Y-%m-%d")
+    except (TypeError, ValueError):
+        pass
+    m = re.match(r"(\d{4}-\d{2}-\d{2})", p)
+    return m.group(1) if m else ""
+
+
+def date_ok(pub, jours):
+    d = parse_date(pub)
+    if not d:
+        return True  # date illisible : le flux RSS est récent de toute façon
+    return (dt.datetime.now(dt.timezone.utc).date() - dt.date.fromisoformat(d)).days <= jours
+
+
+def section_presse(sources):
+    entrees, etat = [], {}
+    for nom, url in sources:
+        try:
+            items = parse_rss(fetch(url))
+            etat[nom] = "ok (%d entrées lues)" % len(items)
+            for it in items:
+                texte = (it["titre"] + " " + it["extrait"]).lower()
+                if not date_ok(it["date"], JOURS):
+                    continue
+                mots = [m for m in MOTS if m in texte]
+                if not mots:
+                    continue
+                entrees.append({
+                    "titre": it["titre"], "source": nom, "date": it["date"], "url": it["url"],
+                    "mots": mots, "extrait": it["extrait"],
+                })
+        except Exception as e:
+            etat[nom] = "erreur: %s" % str(e)[:120]
+    # tri : date décroissante quand possible, puis titre
+    entrees.sort(key=lambda x: x["date"], reverse=True)
+    return entrees[:MAX], etat
+
+
+def section_emplois():
+    """API France Travail si FT_ID/FT_SECRET présents, sinon vide."""
+    ft_id = os.environ.get("FT_ID", "").strip()
+    ft_secret = os.environ.get("FT_SECRET", "").strip()
+    if not ft_id or not ft_secret:
+        return [], "API France Travail non configurée (secrets FT_ID / FT_SECRET absents)"
+    requetes = ["responsable énergie", "chargé affaires photovoltaïque", "photovoltaïque", "RSE", "facility manager", "énergie bâtiment"]
+    out = []
+    import base64
+    token = base64.b64encode(("%s:%s" % (ft_id, ft_secret)).encode()).decode()
+    try:
+        for q in requetes:
+            body = json.dumps({"q": q, "domaineDepartement": ",".join(DEPS), "publieeDepuis": 7, "nb": 10}).encode()
+            req = urllib.request.Request(
+                "https://api.francetravail.io/partenaire/offresdemploi/v2/offres/search",
+                data=body, method="POST",
+                headers={"Authorization": "Bearer " + _ft_token(ft_id, ft_secret),
+                         "Content-Type": "application/json", "Accept": "application/json"})
+            # l'API FT v2 attend un jeton OAuth2 ; on le demande d'abord
+            with urllib.request.urlopen(req, timeout=25) as r:
+                j = json.load(r)
+            for o in (j.get("resultats") or []):
+                out.append({
+                    "titre": o.get("intitule", ""), "entreprise": o.get("entreprise", {}).get("nom", ""),
+                    "lieu": o.get("lieuTravail", {}).get("libelle", ""), "date": o.get("dateCreation", "")[:10],
+                    "url": o.get("origineOffre", {}).get("url", ""), "mot": q,
+                })
+            if len(out) >= 40:
+                break
+        return out[:40], "ok (%d offres)" % len(out)
+    except Exception as e:
+        return [], "erreur API France Travail: %s" % str(e)[:120]
+
+
+def _ft_token(ft_id, ft_secret):
+    import base64, urllib.parse
+    body = urllib.parse.urlencode({"grant_type": "client_credentials", "client_id": ft_id, "client_secret": ft_secret, "scope": "api_offresdemploi-v2 o2dsoffre"}).encode()
+    req = urllib.request.Request("https://api.francetravail.io/partenaire/oauth2/token", data=body,
+                                 headers={"Authorization": "Basic " + base64.b64encode(("%s:%s" % (ft_id, ft_secret)).encode()).decode(),
+                                          "Content-Type": "application/x-www-form-urlencoded"})
+    with urllib.request.urlopen(req, timeout=20) as r:
+        return json.load(r)["access_token"]
+
+
+def main():
+    presse, etat_presse = section_presse(RSS)
+    emplois, etat_emplois = section_emplois()
+    doc = {
+        "_meta": {
+            "maj": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "jours": JOURS,
+            "sources": {"presse": etat_presse, "emplois": etat_emplois},
+            "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE (si API configurée), salons à venir.",
+        },
+        "presse": presse,
+        "emplois": emplois,
+        "salons": SALONS,
+    }
+    with open(OUT, "w", encoding="utf-8") as f:
+        json.dump(doc, f, ensure_ascii=False, indent=1)
+    print("signaux.json : %d presse, %d emplois, %d salons -> %s" % (len(presse), len(emplois), len(SALONS), OUT))
+    print("presse:", etat_presse)
+    print("emplois:", etat_emplois)
+
+
+if __name__ == "__main__":
+    main()
