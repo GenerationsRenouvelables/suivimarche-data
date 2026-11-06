@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "maj": "2026-11-06T16:11:19Z",
+  "maj": "2026-11-06T16:42:12Z",
   "jours": 30,
   "sources": {
    "presse": {
@@ -9,10 +9,9 @@
     "Les-EnR.eu": "ok (10 entrées lues)",
     "Révolution Énergétique": "ok (50 entrées lues)"
    },
-   "emplois": "API « Offres d'emploi v2 » non ajoutée à l'application francetravail.io (l'ajouter puis Enregistrer)",
    "recrutent": "ok (67 entreprises)"
   },
-  "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE, entreprises qui recrutent (La Bonne Boîte), salons à venir. coords = coordonnées publiées par SIREN pour enrichir les fiches prospects."
+  "note": "Signaux faibles : presse énergie/industrie filtrée, entreprises qui recrutent (La Bonne Boîte), salons à venir. coords = coordonnées publiées par SIREN pour enrichir les fiches prospects."
  },
  "presse": [
   {
@@ -160,32 +159,7 @@
    "extrait": "Pour répondre au défi de la décarbonation des transports collectifs, la région Centre-Val de Loire mise sur le retrofit de ses cars scolaires. Cette solution, […] L’article Cette entreprise électrifie les cars scolaires pour réduire leur empreinte carbone est apparu en premier sur Révolution Énergét"
   }
  ],
- "emplois": [],
  "recrutent": [
-  {
-   "siren": "665580072",
-   "siret": "66558007200197",
-   "nom": "BONDUELLE EUROPE LONG LIFE",
-   "adresse": "80200 Estrées-Mons",
-   "dep": "80",
-   "taille": "",
-   "score": 87,
-   "naf": "Autre transformation et conservation de légumes",
-   "tel": "",
-   "site": ""
-  },
-  {
-   "siren": "665580072",
-   "siret": "66558007200247",
-   "nom": "BONDUELLE EUROPE LONG LIFE",
-   "adresse": "62159 Vaulx-Vraucourt",
-   "dep": "62",
-   "taille": "100-199",
-   "score": 84,
-   "naf": "Autre transformation et conservation de légumes",
-   "tel": "",
-   "site": ""
-  },
   {
    "siren": "908421779",
    "siret": "90842177900020",
@@ -200,11 +174,11 @@
   },
   {
    "siren": "665580072",
-   "siret": "66558007200288",
-   "nom": "BONDUELLE EUROPE LONG LIFE (BELL)",
+   "siret": "66558007200197",
+   "nom": "BONDUELLE EUROPE LONG LIFE",
    "adresse": "80200 Estrées-Mons",
    "dep": "80",
-   "taille": "500-999",
+   "taille": "",
    "score": 82,
    "naf": "Autre transformation et conservation de légumes",
    "tel": "",
@@ -255,6 +229,18 @@
    "taille": "500-999",
    "score": 67,
    "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "665580072",
+   "siret": "66558007200247",
+   "nom": "BONDUELLE EUROPE LONG LIFE",
+   "adresse": "62159 Vaulx-Vraucourt",
+   "dep": "62",
+   "taille": "100-199",
+   "score": 65,
+   "naf": "Autre transformation et conservation de légumes",
    "tel": "",
    "site": ""
   },
@@ -331,14 +317,14 @@
    "site": ""
   },
   {
-   "siren": "410206437",
-   "siret": "41020643700023",
-   "nom": "RENAULT ELECTRICITY",
-   "adresse": "59500 Douai",
-   "dep": "59",
-   "taille": "",
+   "siren": "665580072",
+   "siret": "66558007200288",
+   "nom": "BONDUELLE EUROPE LONG LIFE (BELL)",
+   "adresse": "80200 Estrées-Mons",
+   "dep": "80",
+   "taille": "500-999",
    "score": 58,
-   "naf": "Construction de véhicules automobiles",
+   "naf": "Autre transformation et conservation de légumes",
    "tel": "",
    "site": ""
   },
@@ -459,6 +445,18 @@
    "taille": "250-499",
    "score": 52,
    "naf": "Hypermarchés",
+   "tel": "",
+   "site": ""
+  },
+  {
+   "siren": "410206437",
+   "siret": "41020643700023",
+   "nom": "RENAULT ELECTRICITY",
+   "adresse": "59500 Douai",
+   "dep": "59",
+   "taille": "",
+   "score": 51,
+   "naf": "Construction de véhicules automobiles",
    "tel": "",
    "site": ""
   },
@@ -968,12 +966,12 @@
   }
  ],
  "coords": {
-  "665580072": {
-   "adresse": "80200 Estrées-Mons",
-   "source": "La Bonne Boîte v2 (recrute)"
-  },
   "908421779": {
    "adresse": "59552 Lambres-lez-Douai",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "665580072": {
+   "adresse": "80200 Estrées-Mons",
    "source": "La Bonne Boîte v2 (recrute)"
   },
   "948863501": {
@@ -1008,10 +1006,6 @@
    "adresse": "59112 Annœullin",
    "source": "La Bonne Boîte v2 (recrute)"
   },
-  "410206437": {
-   "adresse": "59500 Douai",
-   "source": "La Bonne Boîte v2 (recrute)"
-  },
   "530675222": {
    "adresse": "62141 Évin-Malmaison",
    "source": "La Bonne Boîte v2 (recrute)"
@@ -1042,6 +1036,10 @@
   },
   "776221467": {
    "adresse": "51300 Marolles",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "410206437": {
+   "adresse": "59500 Douai",
    "source": "La Bonne Boîte v2 (recrute)"
   },
   "519037584": {
