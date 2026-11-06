@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "maj": "2026-11-06T14:40:13Z",
+  "maj": "2026-11-06T15:11:44Z",
   "jours": 30,
   "sources": {
    "presse": {
@@ -9,7 +9,7 @@
     "Les-EnR.eu": "ok (10 entrées lues)",
     "Révolution Énergétique": "ok (50 entrées lues)"
    },
-   "emplois": "API France Travail non configurée (secrets FT_ID / FT_SECRET absents)"
+   "emplois": "API France Travail non configurée (secrets FT_ID / FT_SECRET absents du workflow)"
   },
   "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE (si API configurée), salons à venir."
  },
@@ -22,7 +22,7 @@
    "mots": [
     "appel à projets"
    ],
-   "extrait": "Le directeur de la DGEC, Cédric Bourillet, vient d’annoncer sur Linkedin le lancement d’un appel à projets pour l’hydrogène natif, naturel ou blanc, c&#8217;est-à-dire naturellement présent dans le sous-sol. Les contours du dispositif n’ont pas encore été dévoilés. Selon nos informations, il L’artic"
+   "extrait": "Le directeur de la DGEC, Cédric Bourillet, vient d’annoncer sur Linkedin le lancement d’un appel à projets pour l’hydrogène natif, naturel ou blanc, c’est-à-dire naturellement présent dans le sous-sol. Les contours du dispositif n’ont pas encore été dévoilés. Selon nos informations, il L’article Les"
   },
   {
    "titre": "L’État supprime le programme d’aides aux collectivités pour la rénovation thermique des bâtiments publics",
@@ -32,7 +32,7 @@
    "mots": [
     "prime"
    ],
-   "extrait": "Le gouvernement vient d&#8217;abandonner un programme d&#233;di&#233; &#224; l&#8217;accompagnement des collectivit&#233;s pour la r&#233;novation &#233;nerg&#233;tique des b&#226;timents publics, qui avait d&#233;j&#224; profit&#233; &#224; presque 8000 [&#8230;] L’article L’État supprime le progra"
+   "extrait": "Le gouvernement vient d’abandonner un programme dédié à l’accompagnement des collectivités pour la rénovation énergétique des bâtiments publics, qui avait déjà profité à presque 8000 […] L’article L’État supprime le programme d’aides aux collectivités pour la rénovation thermique des bâtiments publi"
   },
   {
    "titre": "Comment les renouvelables se mobilisent contre la révision des tarifs solaires",
@@ -52,7 +52,7 @@
    "mots": [
     "décarbonation"
    ],
-   "extrait": "Quel est le potentiel du marché de la décarbonation de l&#8217;industrie ? Et comment prendre la vague ? C&#8217;est ce que GreenUnivers a voulu identifier dans une enquête en quatre volets. Sur le papier, le débouché paraît évident pour les producteurs d&#8217;énergies renouvelables alors que les p"
+   "extrait": "Quel est le potentiel du marché de la décarbonation de l’industrie ? Et comment prendre la vague ? C’est ce que GreenUnivers a voulu identifier dans une enquête en quatre volets. Sur le papier, le débouché paraît évident pour les producteurs d’énergies renouvelables alors que les pouvoirs publics ve"
   },
   {
    "titre": "Au Mans, Radiant ressuscite la centrale solaire à concentration",
@@ -62,7 +62,7 @@
    "mots": [
     "solaire"
    ],
-   "extrait": "Reportage &#8211; « Ils ont vraiment construit très vite cette centrale », se réjouit Maxime Brousse, spécialiste de l’énergie au start-up studio Hexa. Après avoir misé 500 000€ l’année dernière sur la jeune pousse du solaire Radiant, l&#8217;investisseur assistait ce matin au Mans (Sarthe), en comp"
+   "extrait": "Reportage – « Ils ont vraiment construit très vite cette centrale », se réjouit Maxime Brousse, spécialiste de l’énergie au start-up studio Hexa. Après avoir misé 500 000€ l’année dernière sur la jeune pousse du solaire Radiant, l’investisseur assistait ce matin au Mans (Sarthe), en compagnie entre "
   },
   {
    "titre": "Voiture électrique : pourquoi deux conducteurs sur trois ne programment toujours pas leur recharge",
@@ -72,7 +72,7 @@
    "mots": [
     "enedis"
    ],
-   "extrait": "La part des conducteurs de voitures &#233;lectriques qui programment leur recharge &#224; domicile ne d&#233;colle pas, selon une enqu&#234;te d&#8217;Enedis. Un curieux comportement, alors que [&#8230;] L’article Voiture électrique : pourquoi deux conducteurs sur trois ne programment toujours pas l"
+   "extrait": "La part des conducteurs de voitures électriques qui programment leur recharge à domicile ne décolle pas, selon une enquête d’Enedis. Un curieux comportement, alors que […] L’article Voiture électrique : pourquoi deux conducteurs sur trois ne programment toujours pas leur recharge est apparu en premi"
   },
   {
    "titre": "Cette entreprise veut décarboner la chaleur industrielle grâce au solaire",
@@ -81,9 +81,10 @@
    "url": "https://www.revolution-energetique.com/actus/cette-entreprise-veut-decarboner-la-chaleur-industrielle-grace-au-solaire/",
    "mots": [
     "solaire",
+    "décarbonation",
     "décarboner"
    ],
-   "extrait": "La chaleur industrielle est l&#8217;un des gros enjeux de la d&#233;carbonation. Des solutions existent, mais ont toutes leur lot d&#8217;inconv&#233;nients : co&#251;ts &#233;lev&#233;s, difficult&#233; de [&#8230;] L’article Cette entreprise veut décarboner la chaleur industrielle grâce au solaire"
+   "extrait": "La chaleur industrielle est l’un des gros enjeux de la décarbonation. Des solutions existent, mais ont toutes leur lot d’inconvénients : coûts élevés, difficulté de […] L’article Cette entreprise veut décarboner la chaleur industrielle grâce au solaire est apparu en premier sur Révolution Énergétiqu"
   },
   {
    "titre": "Fenêtres, combles, VMC : ce que le nouveau régime MaPrimeRénov’ change depuis septembre 2026",
@@ -93,7 +94,7 @@
    "mots": [
     "prime"
    ],
-   "extrait": "Depuis le 1er septembre 2026, plusieurs travaux courants comme l&#8217;isolation des combles ou le remplacement des fen&#234;tres ne sont plus finan&#231;ables en geste isol&#233;. Ce [&#8230;] L’article Fenêtres, combles, VMC : ce que le nouveau régime MaPrimeRénov&rsquo; change depuis septembre 20"
+   "extrait": "Depuis le 1er septembre 2026, plusieurs travaux courants comme l’isolation des combles ou le remplacement des fenêtres ne sont plus finançables en geste isolé. Ce […] L’article Fenêtres, combles, VMC : ce que le nouveau régime MaPrimeRénov’ change depuis septembre 2026 est apparu en premier sur Révo"
   },
   {
    "titre": "Cette entreprise va toucher 180 000 € par an grâce à sa toiture solaire",
@@ -103,7 +104,17 @@
    "mots": [
     "solaire"
    ],
-   "extrait": "En emm&#233;nageant dans de nouveaux locaux plus grands, la coop&#233;rative lyonnaise Articop a fait d&#8217;une pierre deux coups. Outre le fait de disposer d&#8217;une plus [&#8230;] L’article Cette entreprise va toucher 180 000 € par an grâce à sa toiture solaire est apparu en premier sur Révolu"
+   "extrait": "En emménageant dans de nouveaux locaux plus grands, la coopérative lyonnaise Articop a fait d’une pierre deux coups. Outre le fait de disposer d’une plus […] L’article Cette entreprise va toucher 180 000 € par an grâce à sa toiture solaire est apparu en premier sur Révolution Énergétique ."
+  },
+  {
+   "titre": "Cette petite île grecque est désormais autonome grâce aux énergies renouvelables et aux batteries",
+   "source": "Révolution Énergétique",
+   "date": "2026-10-24",
+   "url": "https://www.revolution-energetique.com/actus/cette-petite-ile-grecque-est-desormais-autonome-grace-aux-energies-renouvelables-et-aux-batteries/",
+   "mots": [
+    "décarbonation"
+   ],
+   "extrait": "La décarbonation des territoires insulaires est un défi difficile à surmonter. Mais la Grèce vient de franchir une étape importante en rendant autonome la petite […] L’article Cette petite île grecque est désormais autonome grâce aux énergies renouvelables et aux batteries est apparu en premier sur "
   },
   {
    "titre": "Et si passer au solaire coûtait moins cher ? Ensol mise sur la location",
@@ -111,10 +122,11 @@
    "date": "2026-10-22",
    "url": "https://www.revolution-energetique.com/actus/et-si-passer-au-solaire-coutait-moins-cher-ensol-mise-sur-la-location/",
    "mots": [
+    "photovoltaïque",
     "solaire",
     "autoconsommation"
    ],
-   "extrait": "Installer des panneaux solaires sans investir plusieurs milliers d&#8217;euros d&#8217;un coup : Ensol propose une formule de location pour rendre l&#8217;autoconsommation plus accessible. Le photovolta&#239;que [&#8230;] L’article Et si passer au solaire coûtait moins cher ? Ensol mise sur la locat"
+   "extrait": "Installer des panneaux solaires sans investir plusieurs milliers d’euros d’un coup : Ensol propose une formule de location pour rendre l’autoconsommation plus accessible. Le photovoltaïque […] L’article Et si passer au solaire coûtait moins cher ? Ensol mise sur la location est apparu en premier sur"
   },
   {
    "titre": "Le prix de l’électricité solaire dégringole : 61 €/MWh, un tarif historiquement bas",
@@ -124,7 +136,7 @@
    "mots": [
     "solaire"
    ],
-   "extrait": "La neuvi&#232;me session de l&#8217;appel d&#8217;offres solaire au sol a eu du succ&#232;s, c&#8217;est le moins qu&#8217;on puisse dire, avec six fois la puissance demand&#233;e [&#8230;] L’article Le prix de l&rsquo;électricité solaire dégringole : 61 €/MWh, un tarif historiquement bas est apparu"
+   "extrait": "La neuvième session de l’appel d’offres solaire au sol a eu du succès, c’est le moins qu’on puisse dire, avec six fois la puissance demandée […] L’article Le prix de l’électricité solaire dégringole : 61 €/MWh, un tarif historiquement bas est apparu en premier sur Révolution Énergétique ."
   },
   {
    "titre": "Stockage d’électricité : le chantier d’extension de la STEP de Montézic a commencé",
@@ -134,7 +146,17 @@
    "mots": [
     "extension"
    ],
-   "extrait": "Dans l&#8217;Aveyron, EDF lance les premiers coups de pioche du colossal projet d&#8217;extension de la station de pompage-turbinage de Mont&#233;zic. Ce chantier, qui consiste notamment [&#8230;] L’article Stockage d&rsquo;électricité : le chantier d&rsquo;extension de la STEP de Montézic a commenc"
+   "extrait": "Dans l’Aveyron, EDF lance les premiers coups de pioche du colossal projet d’extension de la station de pompage-turbinage de Montézic. Ce chantier, qui consiste notamment […] L’article Stockage d’électricité : le chantier d’extension de la STEP de Montézic a commencé est apparu en premier sur Révolut"
+  },
+  {
+   "titre": "Cette entreprise électrifie les cars scolaires pour réduire leur empreinte carbone",
+   "source": "Révolution Énergétique",
+   "date": "2026-10-07",
+   "url": "https://www.revolution-energetique.com/actus/cette-entreprise-electrifie-les-cars-scolaires-pour-reduire-leur-empreinte-carbone/",
+   "mots": [
+    "décarbonation"
+   ],
+   "extrait": "Pour répondre au défi de la décarbonation des transports collectifs, la région Centre-Val de Loire mise sur le retrofit de ses cars scolaires. Cette solution, […] L’article Cette entreprise électrifie les cars scolaires pour réduire leur empreinte carbone est apparu en premier sur Révolution Énergét"
   }
  ],
  "emplois": [],

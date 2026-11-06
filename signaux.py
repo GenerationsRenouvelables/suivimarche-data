@@ -15,11 +15,13 @@ Lancement manuel : python signaux.py ; variables : SIGNAUX_JOURS (défaut 30), S
 """
 
 import datetime as dt
+import html
 import json
 import os
 import re
 import sys
 import urllib.request
+import urllib.parse
 import xml.etree.ElementTree as ET
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signaux.json")
@@ -95,8 +97,9 @@ def parse_rss(data):
             pub = (e.text or "") if e is not None and e.text else ""
         resume = g("description") or g("summary")
         resume = re.sub(r"<[^>]+>", " ", resume)
+        resume = html.unescape(resume)                      # entités HTML des flux (&egrave; &#8217;…)
         resume = re.sub(r"\s+", " ", resume).strip()[:300]
-        out.append({"titre": titre, "url": lien, "date": parse_date(pub), "extrait": resume})
+        out.append({"titre": html.unescape(titre), "url": lien, "date": parse_date(pub), "extrait": resume})
     return out
 
 
@@ -150,44 +153,51 @@ def section_presse(sources):
 
 
 def section_emplois():
-    """API France Travail si FT_ID/FT_SECRET présents, sinon vide."""
+    """API France Travail (offres d'emploi v2) si FT_ID/FT_SECRET présents, sinon vide."""
+    import base64
     ft_id = os.environ.get("FT_ID", "").strip()
     ft_secret = os.environ.get("FT_SECRET", "").strip()
     if not ft_id or not ft_secret:
-        return [], "API France Travail non configurée (secrets FT_ID / FT_SECRET absents)"
-    requetes = ["responsable énergie", "chargé affaires photovoltaïque", "photovoltaïque", "RSE", "facility manager", "énergie bâtiment"]
+        return [], "API France Travail non configurée (secrets FT_ID / FT_SECRET absents du workflow)"
+    requetes = ["responsable énergie", "chargé d'affaires photovoltaïque", "photovoltaïque", "RSE", "facility manager", "énergie bâtiment"]
+    try:
+        token = _ft_token(ft_id, ft_secret)
+    except Exception as e:
+        return [], "erreur jeton France Travail: %s" % str(e)[:140]
     out = []
-    import base64
-    token = base64.b64encode(("%s:%s" % (ft_id, ft_secret)).encode()).decode()
+    limite = (dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=7)).isoformat()
     try:
         for q in requetes:
-            body = json.dumps({"q": q, "domaineDepartement": ",".join(DEPS), "publieeDepuis": 7, "nb": 10}).encode()
+            params = urllib.parse.urlencode({"q": q, "departement": ",".join(DEPS), "range": "0-39", "sort": "2"})
             req = urllib.request.Request(
-                "https://api.francetravail.io/partenaire/offresdemploi/v2/offres/search",
-                data=body, method="POST",
-                headers={"Authorization": "Bearer " + _ft_token(ft_id, ft_secret),
-                         "Content-Type": "application/json", "Accept": "application/json"})
-            # l'API FT v2 attend un jeton OAuth2 ; on le demande d'abord
+                "https://api.francetravail.io/partenaire/offresdemploi/v2/offres/search?" + params,
+                headers={"Authorization": "Bearer " + token, "Accept": "application/json"})
             with urllib.request.urlopen(req, timeout=25) as r:
                 j = json.load(r)
             for o in (j.get("resultats") or []):
+                d = (o.get("dateCreation") or "")[:10]
+                if d and d < limite:      # filtre « 7 derniers jours » côté client
+                    continue
                 out.append({
-                    "titre": o.get("intitule", ""), "entreprise": o.get("entreprise", {}).get("nom", ""),
-                    "lieu": o.get("lieuTravail", {}).get("libelle", ""), "date": o.get("dateCreation", "")[:10],
-                    "url": o.get("origineOffre", {}).get("url", ""), "mot": q,
+                    "titre": html.unescape(o.get("intitule") or ""),
+                    "entreprise": html.unescape((o.get("entreprise") or {}).get("nom") or ""),
+                    "lieu": html.unescape((o.get("lieuTravail") or {}).get("libelle") or ""),
+                    "date": d, "url": (o.get("origineOffre") or {}).get("url") or "", "mot": q,
                 })
             if len(out) >= 40:
                 break
-        return out[:40], "ok (%d offres)" % len(out)
+        out = out[:40]
+        return out, "ok (%d offres sur 7 jours)" % len(out)
     except Exception as e:
-        return [], "erreur API France Travail: %s" % str(e)[:120]
+        return [], "erreur API France Travail: %s" % str(e)[:140]
 
 
 def _ft_token(ft_id, ft_secret):
-    import base64, urllib.parse
-    body = urllib.parse.urlencode({"grant_type": "client_credentials", "client_id": ft_id, "client_secret": ft_secret, "scope": "api_offresdemploi-v2 o2dsoffre"}).encode()
+    import base64
+    body = urllib.parse.urlencode({"grant_type": "client_credentials", "scope": "api_offresdemploi-v2 o2dsoffre"}).encode()
+    basic = base64.b64encode(("%s:%s" % (ft_id, ft_secret)).encode()).decode()
     req = urllib.request.Request("https://api.francetravail.io/partenaire/oauth2/token", data=body,
-                                 headers={"Authorization": "Basic " + base64.b64encode(("%s:%s" % (ft_id, ft_secret)).encode()).decode(),
+                                 headers={"Authorization": "Basic " + basic,
                                           "Content-Type": "application/x-www-form-urlencoded"})
     with urllib.request.urlopen(req, timeout=20) as r:
         return json.load(r)["access_token"]
