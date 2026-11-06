@@ -20,6 +20,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
@@ -61,6 +62,8 @@ SALONS = [
 ]
 
 DEPS = ["02", "08", "51", "54", "59", "62", "80"]  # périmètre Nord France de SuiviMarché
+PREFECTURES = {"02": "02000", "08": "08000", "51": "51000", "54": "54000", "59": "59000", "62": "62000", "80": "80000"}  # code INSEE
+SCOPES = os.environ.get("FT_SCOPES", "api_offresdemploi-v2 o2dsoffre api_labonneboite-v2").strip()
 
 UA = {"User-Agent": "Mozilla/5.0 (compatible; SuiviMarche-relais/1.0; prospection signaux faibles)"}
 
@@ -192,43 +195,96 @@ def section_emplois():
         return [], "erreur API France Travail: %s" % str(e)[:140]
 
 
+def section_recrutent(token, domaine):
+    """La Bonne Boîte v2 : entreprises à fort potentiel d'embauche autour des préfectures du périmètre."""
+    out = []
+    try:
+        for dep, insee in PREFECTURES.items():
+            time.sleep(0.6)   # limite La Bonne Boîte v2 : 2 appels/s
+            params = urllib.parse.urlencode({"commune": insee, "distance": 60})
+            req = urllib.request.Request(
+                domaine + "/partenaire/labonneboite/v2/entreprises/search?" + params,
+                headers={"Authorization": "Bearer " + token, "Accept": "application/json"})
+            try:
+                with urllib.request.urlopen(req, timeout=25) as r:
+                    j = json.load(r)
+            except Exception as e:
+                return [], "erreur La Bonne Boîte (%s): %s" % (dep, str(e)[:80])
+            for e in (j.get("entreprises") or [])[:20]:
+                siret = str(e.get("siret") or "")
+                out.append({
+                    "siren": siret[:9], "siret": siret,
+                    "nom": html.unescape(e.get("enseigne") or e.get("nom") or e.get("raison_sociale") or ""),
+                    "adresse": html.unescape(" ".join(filter(None, [e.get("adresse"), e.get("code_postal"), e.get("commune")]))),
+                    "dep": dep, "taille": e.get("taille") or "", "score": e.get("score"),
+                    "naf": e.get("naf") or e.get("activite") or "", "tel": e.get("telephone") or "", "site": e.get("site_web") or "",
+                })
+        # dédoublonne par SIRET, tri score décroissant
+        vu, res = set(), []
+        for x in sorted(out, key=lambda x: -(x.get("score") or 0)):
+            if x["siret"] and x["siret"] not in vu:
+                vu.add(x["siret"]); res.append(x)
+        return res[:60], "ok (%d entreprises)" % len(res)
+    except Exception as e:
+        return [], "erreur La Bonne Boîte: %s" % str(e)[:120]
+
+
 def _ft_token(ft_id, ft_secret):
-    """Jeton OAuth2 client_credentials ; essaie les deux portails (francetravail.io puis emploi.gouv.fr)."""
+    """Jeton OAuth2 client_credentials ; domaine francetravail.io (emploi.gouv.fr n'existe plus)."""
     import base64
-    body = urllib.parse.urlencode({"grant_type": "client_credentials", "scope": "api_offresdemploi-v2 o2dsoffre"}).encode()
+    body = urllib.parse.urlencode({"grant_type": "client_credentials", "scope": SCOPES}).encode()
     basic = base64.b64encode(("%s:%s" % (ft_id, ft_secret)).encode()).decode()
-    errs = []
-    for domaine in ("https://api.francetravail.io", "https://api.emploi.gouv.fr"):
-        req = urllib.request.Request(domaine + "/partenaire/oauth2/token", data=body,
-                                     headers={"Authorization": "Basic " + basic,
-                                              "Content-Type": "application/x-www-form-urlencoded"})
-        try:
-            with urllib.request.urlopen(req, timeout=20) as r:
-                return json.load(r)["access_token"], domaine
-        except Exception as e:
-            errs.append("%s: %s" % (domaine, str(e)[:60]))
-    raise RuntimeError(" ; ".join(errs))
+    domaine = "https://api.francetravail.io"
+    req = urllib.request.Request(domaine + "/partenaire/oauth2/token", data=body,
+                                 headers={"Authorization": "Basic " + basic,
+                                          "Content-Type": "application/x-www-form-urlencoded"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return json.load(r)["access_token"], domaine
+    except Exception as e:
+        raise RuntimeError("%s: %s (vérifier que l'application francetravail.io a bien les API Offres d'emploi v2 / La Bonne Boîte v2 et que FT_ID/FT_SECRET sont ceux de CETTE application)" % (domaine, str(e)[:80]))
 
 
 def main():
     presse, etat_presse = section_presse(RSS)
     emplois, etat_emplois = section_emplois()
+    recrutent, etat_recrutent = ([], "API France Travail non configurée")
+    ft_id = os.environ.get("FT_ID", "").strip()
+    ft_secret = os.environ.get("FT_SECRET", "").strip()
+    if ft_id and ft_secret:
+        try:
+            token, domaine = _ft_token(ft_id, ft_secret)
+            recrutent, etat_recrutent = section_recrutent(token, domaine)
+        except Exception as e:
+            etat_recrutent = str(e)[:160]
+    coords = {}
+    for x in recrutent:
+        if not x.get("siren"):
+            continue
+        c = coords.setdefault(x["siren"], {})
+        for k in ("adresse", "tel", "site"):
+            if x.get(k) and not c.get(k):
+                c[k] = x[k]
+        c["source"] = "La Bonne Boîte v2 (recrute)"
     doc = {
         "_meta": {
             "maj": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "jours": JOURS,
-            "sources": {"presse": etat_presse, "emplois": etat_emplois},
-            "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE (si API configurée), salons à venir.",
+            "sources": {"presse": etat_presse, "emplois": etat_emplois, "recrutent": etat_recrutent},
+            "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE, entreprises qui recrutent (La Bonne Boîte), salons à venir. coords = coordonnées publiées par SIREN pour enrichir les fiches prospects.",
         },
         "presse": presse,
         "emplois": emplois,
+        "recrutent": recrutent,
+        "coords": coords,
         "salons": SALONS,
     }
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(doc, f, ensure_ascii=False, indent=1)
-    print("signaux.json : %d presse, %d emplois, %d salons -> %s" % (len(presse), len(emplois), len(SALONS), OUT))
+    print("signaux.json : %d presse, %d emplois, %d recrutent, %d salons -> %s" % (len(presse), len(emplois), len(recrutent), len(SALONS), OUT))
     print("presse:", etat_presse)
     print("emplois:", etat_emplois)
+    print("recrutent:", etat_recrutent)
 
 
 if __name__ == "__main__":
