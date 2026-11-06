@@ -1,6 +1,6 @@
 {
  "_meta": {
-  "maj": "2026-11-06T15:16:59Z",
+  "maj": "2026-11-06T15:20:32Z",
   "jours": 30,
   "sources": {
    "presse": {
@@ -9,7 +9,7 @@
     "Les-EnR.eu": "ok (10 entrées lues)",
     "Révolution Énergétique": "ok (50 entrées lues)"
    },
-   "emplois": "erreur jeton France Travail: HTTP Error 401: Unauthorized"
+   "emplois": "erreur jeton France Travail: https://api.francetravail.io: HTTP Error 401: Unauthorized ; https://api.emploi.gouv.fr: <urlopen error [Errno -2] Name or service not known"
   },
   "note": "Signaux faibles : presse énergie/industrie filtrée, offres d'emploi énergie/RSE (si API configurée), salons à venir."
  },
