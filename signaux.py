@@ -155,18 +155,11 @@ def section_presse(sources):
     return entrees[:MAX], etat
 
 
-def section_emplois():
-    """API France Travail (offres d'emploi v2) si FT_ID/FT_SECRET présents, sinon vide."""
-    import base64
-    ft_id = os.environ.get("FT_ID", "").strip()
-    ft_secret = os.environ.get("FT_SECRET", "").strip()
-    if not ft_id or not ft_secret:
-        return [], "API France Travail non configurée (secrets FT_ID / FT_SECRET absents du workflow)"
+def section_emplois(token, domaine, avec_offres):
+    """API France Travail (offres d'emploi v2) si le jeton couvre ce scope."""
+    if not avec_offres:
+        return [], "API « Offres d'emploi v2 » non ajoutée à l'application francetravail.io (l'ajouter puis Enregistrer)"
     requetes = ["responsable énergie", "chargé d'affaires photovoltaïque", "photovoltaïque", "RSE", "facility manager", "énergie bâtiment"]
-    try:
-        token, domaine = _ft_token(ft_id, ft_secret)
-    except Exception as e:
-        return [], "erreur jeton France Travail: %s" % str(e)[:140]
     out = []
     limite = (dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=7)).isoformat()
     try:
@@ -230,33 +223,38 @@ def section_recrutent(token, domaine):
 
 
 def _ft_token(ft_id, ft_secret):
-    """Jeton OAuth2 client_credentials ; domaine francetravail.io (emploi.gouv.fr n'existe plus)."""
+    """Jeton OAuth2 client_credentials (francetravail.io). Repli sur le scope La Bonne Boîte seul
+    si l'application n'a pas encore l'API Offres d'emploi v2 -> retourne (token, domaine, scopes_ok)."""
     import base64
-    body = urllib.parse.urlencode({"grant_type": "client_credentials", "scope": SCOPES}).encode()
     basic = base64.b64encode(("%s:%s" % (ft_id, ft_secret)).encode()).decode()
     domaine = "https://api.francetravail.io"
-    req = urllib.request.Request(domaine + "/partenaire/oauth2/token", data=body,
-                                 headers={"Authorization": "Basic " + basic,
-                                          "Content-Type": "application/x-www-form-urlencoded"})
-    try:
-        with urllib.request.urlopen(req, timeout=20) as r:
-            return json.load(r)["access_token"], domaine
-    except Exception as e:
-        raise RuntimeError("%s: %s (vérifier que l'application francetravail.io a bien les API Offres d'emploi v2 / La Bonne Boîte v2 et que FT_ID/FT_SECRET sont ceux de CETTE application)" % (domaine, str(e)[:80]))
+    for scope in (SCOPES, "api_labonneboite-v2"):
+        body = urllib.parse.urlencode({"grant_type": "client_credentials", "scope": scope}).encode()
+        req = urllib.request.Request(domaine + "/partenaire/oauth2/token", data=body,
+                                     headers={"Authorization": "Basic " + basic,
+                                              "Content-Type": "application/x-www-form-urlencoded"})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                return json.load(r)["access_token"], domaine, scope
+        except Exception:
+            continue
+    raise RuntimeError("%s: 401 (vérifier que FT_ID/FT_SECRET sont le Client ID et la clé secrète de l'application francetravail.io concernée, et que ses API sont enregistrées)" % domaine)
 
 
 def main():
     presse, etat_presse = section_presse(RSS)
-    emplois, etat_emplois = section_emplois()
-    recrutent, etat_recrutent = ([], "API France Travail non configurée")
+    emplois, etat_emplois = [], "API France Travail non configurée"
+    recrutent, etat_recrutent = [], "API France Travail non configurée"
     ft_id = os.environ.get("FT_ID", "").strip()
     ft_secret = os.environ.get("FT_SECRET", "").strip()
     if ft_id and ft_secret:
         try:
-            token, domaine = _ft_token(ft_id, ft_secret)
+            token, domaine, scope = _ft_token(ft_id, ft_secret)
+            avec_offres = "offresdemploi" in scope
+            emplois, etat_emplois = section_emplois(token, domaine, avec_offres)
             recrutent, etat_recrutent = section_recrutent(token, domaine)
         except Exception as e:
-            etat_recrutent = str(e)[:160]
+            etat_emplois = etat_recrutent = str(e)[:160]
     coords = {}
     for x in recrutent:
         if not x.get("siren"):
