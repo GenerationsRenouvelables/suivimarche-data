@@ -28,6 +28,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main   # tête de branche au démarrage du job, et non le commit du déclenchement (exécutions en file d'attente)
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -42,4 +44,11 @@ jobs:
           git config user.name 'relais-bot'
           git config user.email 'relais-bot@users.noreply.github.com'
           git add signaux.json
-          if git diff --cached --quiet; then echo 'Aucun changement'; else git commit -m "Signaux faibles du $(date -u +%F)" && git pull --rebase && git push; fi
+          if git diff --cached --quiet; then echo 'Aucun changement'; exit 0; fi
+          git commit -m "Signaux faibles du $(date -u +%F)"
+          # signaux.json est régénéré en entier : en cas de conflit avec une publication intermédiaire, la version fraîche l'emporte (-X theirs)
+          for i in 1 2 3; do
+            git pull --rebase -X theirs -q origin main && git push -q origin HEAD:main && exit 0
+            echo "publication refusée, nouvel essai $i"; git rebase --abort 2>/dev/null || true; sleep 15
+          done
+          exit 1
