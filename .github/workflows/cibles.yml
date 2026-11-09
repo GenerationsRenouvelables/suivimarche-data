@@ -1,0 +1,50 @@
+name: cibles
+
+# Cibles de prospection PV par département -> cibles/<dep>.json
+# (établissements Sirene des secteurs consommateurs via l'API Recherche d'entreprises, consommation
+#  estimée par ratios sectoriels, toiture BD TOPO IGN, croisement ICPE du relais). Aucune clé.
+# Lancement manuel : Run workflow (inputs : départements) ; sinon le 6 de chaque mois.
+
+on:
+  schedule:
+    - cron: '30 4 6 * *'
+  workflow_dispatch:
+    inputs:
+      departements:
+        description: 'Départements séparés par des espaces'
+        type: string
+        default: '02 08 51 54 59 62 80'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cibles
+  cancel-in-progress: false
+
+jobs:
+  cibles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Calcul des cibles
+        run: python cibles.py ${{ inputs.departements || '02 08 51 54 59 62 80' }}
+      - name: Publication
+        run: |
+          git config user.name 'relais-bot'
+          git config user.email 'relais-bot@users.noreply.github.com'
+          git add cibles
+          if git diff --cached --quiet; then echo 'Aucun changement'; exit 0; fi
+          git commit -m "Cibles de prospection du $(date -u +%F)"
+          # les fichiers sont régénérés en entier : en cas de conflit avec une publication intermédiaire, la version fraîche l'emporte
+          for i in 1 2 3; do
+            git pull --rebase -X theirs -q origin main && git push -q origin HEAD:main && exit 0
+            echo "publication refusée, nouvel essai $i"; git rebase --abort 2>/dev/null || true; sleep 15
+          done
+          exit 1
