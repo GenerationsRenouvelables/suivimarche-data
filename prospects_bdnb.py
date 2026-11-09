@@ -140,7 +140,16 @@ def resume_departement(dep, zpath, out, props, com, permis):
         ir_par_siren = {}
         for x in (ir or []): ir_par_siren.setdefault(x['siret'][:9], []).append(x)
         gc = _grille(co) if co else None; gi2 = _grille([x for x in (ir or []) if x['lat']]) if ir else None; ir_pos = [x for x in (ir or []) if x['lat']]
-        fr_cle = [(set(_mots(x.get('prop_nom', ''))), x) for x in (fr or []) if x.get('prop_nom')]
+        # v1.61 : rattachements par le nom (contacts OSM, friches) sans les noms de commune du département ni les mots génériques :
+        # une société nommée d'après sa ville (OLIVET DISTRIBUTION) ne récupère plus la mairie ni la cordonnerie d'Olivet
+        mots_com = set()
+        try:
+            for c_ in com['libelle_commune_insee'].dropna().unique(): mots_com |= _mots(c_)
+        except Exception: pass
+        for e in cibles:
+            if isinstance(e.get('com'), str): mots_com |= _mots(e['com'])
+        cle_nom = lambda nom: _mots(nom) - mots_com - MOTS_GENERIQUES_NOM
+        fr_cle = [(cle_nom(x.get('prop_nom', '')), x) for x in (fr or []) if x.get('prop_nom')]
         for e in cibles:
             sirens = set([e['siren']] + list(e.get('via') or []))
             if e['siren'] in pc: e['pc'] = pc[e['siren']]
@@ -158,12 +167,12 @@ def resume_departement(dep, zpath, out, props, com, permis):
                 for b in e.get('bat_ids', []):
                     if b in pos:
                         for d_, i in _proches(gc, co, pos[b][0], pos[b][1], 80): trouves[i] = min(trouves.get(i, 1e9), d_)
-                cle = _mots(e['nom'])
+                cle = cle_nom(e['nom'])
                 for i, x in enumerate(co):
                     if i not in trouves and cle and len(set(x['cle']) & cle) >= min(2, len(cle)) and len(cle) >= 1 and (len(set(x['cle']) & cle) >= 2 or len(cle) == 1): trouves[i] = -1
                 lst = [dict(co[i], d=int(d_) if d_ >= 0 else None) for i, d_ in sorted(trouves.items(), key=lambda kv: kv[1])][:4]
                 if lst: e['osm_contacts'] = [{k: v for k, v in {'nom': x['nom'] or x['op'], 'tel': x['tel'], 'mail': x['mail'], 'site': x['site'], 'd': x['d'], 'id': x['id']}.items() if v not in (None, '')} for x in lst]
-            cle = _mots(e['nom'])
+            cle = cle_nom(e['nom'])
             if cle and fr_cle:
                 lst = [x for c_, x in fr_cle if len(c_ & cle) >= 2 or (len(c_ & cle) == 1 and len(cle) == 1 and len(c_) == 1)]
                 if lst: e['friches'] = [{'nom': x.get('nom') or x.get('id', ''), 'com': x.get('com', ''), 'm2': x.get('m2'), 'statut': x.get('statut', '')} for x in lst[:3]]
@@ -760,6 +769,8 @@ OVERPASS = ('https://overpass-api.de/api/interpreter', 'https://maps.mail.ru/osm
 PARKING_MIN = 1500          # m² : seuil de l'obligation d'ombrières (loi APER)
 MOTS_VIDES = {'france', 'parking', 'centre', 'commercial', 'zone', 'societe', 'groupe', 'hypermarche', 'supermarche', 'magasin', 'sas', 'sarl', 'entreprise', 'entreprises', 'nord', 'paris', 'lille', 'departement', 'communaute', 'commune', 'ville', 'region', 'nationale', 'general', 'generale', 'industrie', 'industries', 'services', 'service', 'retail', 'europe', 'holding', 'immobilier', 'immobiliere', 'site', 'usine', 'agence', 'client', 'clients', 'personnel', 'visiteurs', 'salaries', 'employes', 'public', 'prive', 'gare', 'stationnement', 'aire', 'covoiturage', 'relais',
               'grand', 'grande', 'place', 'saint', 'sainte', 'port', 'maritime', 'charles', 'gaulle', 'jean', 'pierre', 'marie', 'louis', 'avenue', 'boulevard', 'route', 'chemin', 'allee', 'espace', 'parc', 'plateau', 'halle', 'halles', 'hotel', 'mairie', 'ecole', 'college', 'lycee', 'stade', 'salle', 'sport', 'sports', 'piscine', 'cimetiere', 'eglise', 'marche', 'maison', 'complexe', 'terrain', 'terrains', 'poids', 'lourds', 'camions', 'voitures', 'velos', 'bus', 'cars', 'nouveau', 'nouvelle', 'ancien', 'ancienne', 'petit', 'petite', 'haut', 'haute', 'basse', 'vieux', 'vieille', 'metropole', 'europeenne', 'urbaine', 'agglomeration', 'hauts', 'flandre', 'flandres', 'artois', 'picardie', 'normandie', 'bretagne', 'loire', 'atlantique', 'pays', 'social', 'sociale', 'habitat', 'logement', 'office', 'universite', 'hopital', 'hospitalier', 'clinique', 'polyclinique', 'medical', 'sante', 'transports', 'transport', 'logistique', 'distribution', 'developpement', 'gestion', 'exploitation', 'production', 'energie', 'energies', 'electricite', 'solaire', 'company', 'international', 'invest', 'investissement', 'participations', 'financiere', 'capital', 'partners', 'group', 'formation', 'faculte', 'medecine', 'pole', 'professionnelle', 'nationale', 'agence', 'adultes', 'institut', 'ecoles', 'campus', 'technique', 'technologie', 'technopole', 'atelier', 'ateliers', 'depot', 'entrepot', 'plateforme'}
+# v1.61 : mots d'une raison sociale qui ne désignent pas la structure (rattachements par le nom) ; sas, sarl, cie, ets, sud, est, val font moins de 4 lettres et sont déjà écartés par _mots
+MOTS_GENERIQUES_NOM = MOTS_VIDES | {'distribution', 'services', 'service', 'groupe', 'holding', 'france', 'societe', 'societes', 'compagnie', 'entreprise', 'entreprises', 'etablissements', 'industrie', 'industries', 'logistique', 'transports', 'transport', 'exploitation', 'nord', 'ouest', 'loire'}
 def _cle_parking(t):
     """mots-clés d'un parking : nom d'enseigne/exploitant (brand, operator) en entier, sinon seulement le premier mot significatif du nom"""
     m = _mots(t.get('brand', '')) | _mots(t.get('operator', ''))
