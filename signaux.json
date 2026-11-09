@@ -1,11 +1,11 @@
 {
  "_meta": {
-  "maj": "2026-11-06T16:42:12Z",
+  "maj": "2026-11-09T16:27:14Z",
   "jours": 30,
   "sources": {
    "presse": {
     "GreenUnivers": "ok (10 entrées lues)",
-    "Actu-Environnement": "ok (6 entrées lues)",
+    "Actu-Environnement": "ok (8 entrées lues)",
     "Les-EnR.eu": "ok (10 entrées lues)",
     "Révolution Énergétique": "ok (50 entrées lues)"
    },
@@ -14,6 +14,38 @@
   "note": "Signaux faibles : presse énergie/industrie filtrée, entreprises qui recrutent (La Bonne Boîte), salons à venir. coords = coordonnées publiées par SIREN pour enrichir les fiches prospects."
  },
  "presse": [
+  {
+   "titre": "Concilier sobriété, compétitivité et adaptation, c'est possible : rendez-vous sur STEP by Pollutec",
+   "source": "Actu-Environnement",
+   "date": "2026-11-09",
+   "url": "https://www.actu-environnement.com/ae/pdt/step-by-pollutec-salon-transformation-ecologique-decarbonation-economie-circulaire-1504.php4#xtor=RSS-6",
+   "mots": [
+    "décarbonation"
+   ],
+   "extrait": "Résolument axé sur la décarbonation et l’économie circulaire, le nouveau salon STEP, les 1er et 2 déc. à Paris, donnera les clés pour transformer la transition écologique en opportunité et en levier de performance pour les entreprises et organisat..."
+  },
+  {
+   "titre": "Pour gagner en flexibilité sur le réseau électrique, RTE et Enedis testent un portail commun",
+   "source": "Révolution Énergétique",
+   "date": "2026-11-09",
+   "url": "https://www.revolution-energetique.com/actus/pour-gagner-en-flexibilite-sur-le-reseau-electrique-rte-et-enedis-testent-un-portail-commun/",
+   "mots": [
+    "enedis"
+   ],
+   "extrait": "RTE et Enedis ont choisi dix départements du Sud-Ouest pour tester leur portail commun de flexibilités et y experimenter sur les deux réseaux les modulations […] L’article Pour gagner en flexibilité sur le réseau électrique, RTE et Enedis testent un portail commun est apparu en premier sur Révolutio"
+  },
+  {
+   "titre": "Cette ombrière photovoltaïque géante de 22 000 m² est l’une des plus grandes de France",
+   "source": "Révolution Énergétique",
+   "date": "2026-11-08",
+   "url": "https://www.revolution-energetique.com/actus/cette-ombriere-photovoltaique-geante-de-22-000-m%c2%b2-est-lune-des-plus-grandes-de-france/",
+   "mots": [
+    "photovoltaïque",
+    "solaire",
+    "ombrière"
+   ],
+   "extrait": "Bordeaux multiplie ses efforts pour maximiser sa production d’électricité solaire. La ville vient d’inaugurer une ombrière photovoltaïque sur un vaste parking dédié aux transport routier. […] L’article Cette ombrière photovoltaïque géante de 22 000 m² est l’une des plus grandes de France est apparu "
+  },
   {
    "titre": "Les contours du premier appel à projets dans l’hydrogène naturel",
    "source": "GreenUnivers",
@@ -33,36 +65,6 @@
     "prime"
    ],
    "extrait": "Le gouvernement vient d’abandonner un programme dédié à l’accompagnement des collectivités pour la rénovation énergétique des bâtiments publics, qui avait déjà profité à presque 8000 […] L’article L’État supprime le programme d’aides aux collectivités pour la rénovation thermique des bâtiments publi"
-  },
-  {
-   "titre": "Comment les renouvelables se mobilisent contre la révision des tarifs solaires",
-   "source": "GreenUnivers",
-   "date": "2026-11-04",
-   "url": "https://www.greenunivers.com/2026/11/comment-les-renouvelables-se-mobilisent-contre-la-revision-des-tarifs-solaires-437868/",
-   "mots": [
-    "solaire"
-   ],
-   "extrait": "En commission fin octobre, les députés ont supprimé l’article 82 du projet de loi de finances, qui prévoyait la révision rétroactive des tarifs S6, S10 et surtout S21 sur les toitures solaires de 300 à 500 kWc. La filière a gagné une première bataille, mais pas la guerre. Malgré les pressions des fi"
-  },
-  {
-   "titre": "Décarbonation de l’industrie, un relais de croissance pour les EnR [Dossier]",
-   "source": "GreenUnivers",
-   "date": "2026-11-04",
-   "url": "https://www.greenunivers.com/2026/11/decarbonation-de-lindustrie-un-relais-de-croissance-pour-les-enr-dossier-437754/",
-   "mots": [
-    "décarbonation"
-   ],
-   "extrait": "Quel est le potentiel du marché de la décarbonation de l’industrie ? Et comment prendre la vague ? C’est ce que GreenUnivers a voulu identifier dans une enquête en quatre volets. Sur le papier, le débouché paraît évident pour les producteurs d’énergies renouvelables alors que les pouvoirs publics ve"
-  },
-  {
-   "titre": "Au Mans, Radiant ressuscite la centrale solaire à concentration",
-   "source": "GreenUnivers",
-   "date": "2026-11-04",
-   "url": "https://www.greenunivers.com/2026/11/au-mans-radiant-ressuscite-la-centrale-solaire-a-concentration-437771/",
-   "mots": [
-    "solaire"
-   ],
-   "extrait": "Reportage – « Ils ont vraiment construit très vite cette centrale », se réjouit Maxime Brousse, spécialiste de l’énergie au start-up studio Hexa. Après avoir misé 500 000€ l’année dernière sur la jeune pousse du solaire Radiant, l’investisseur assistait ce matin au Mans (Sarthe), en compagnie entre "
   },
   {
    "titre": "Voiture électrique : pourquoi deux conducteurs sur trois ne programment toujours pas leur recharge",
@@ -147,16 +149,6 @@
     "extension"
    ],
    "extrait": "Dans l’Aveyron, EDF lance les premiers coups de pioche du colossal projet d’extension de la station de pompage-turbinage de Montézic. Ce chantier, qui consiste notamment […] L’article Stockage d’électricité : le chantier d’extension de la STEP de Montézic a commencé est apparu en premier sur Révolut"
-  },
-  {
-   "titre": "Cette entreprise électrifie les cars scolaires pour réduire leur empreinte carbone",
-   "source": "Révolution Énergétique",
-   "date": "2026-10-07",
-   "url": "https://www.revolution-energetique.com/actus/cette-entreprise-electrifie-les-cars-scolaires-pour-reduire-leur-empreinte-carbone/",
-   "mots": [
-    "décarbonation"
-   ],
-   "extrait": "Pour répondre au défi de la décarbonation des transports collectifs, la région Centre-Val de Loire mise sur le retrofit de ses cars scolaires. Cette solution, […] L’article Cette entreprise électrifie les cars scolaires pour réduire leur empreinte carbone est apparu en premier sur Révolution Énergét"
   }
  ],
  "recrutent": [
@@ -317,6 +309,18 @@
    "site": ""
   },
   {
+   "siren": "410206437",
+   "siret": "41020643700023",
+   "nom": "RENAULT ELECTRICITY",
+   "adresse": "59500 Douai",
+   "dep": "59",
+   "taille": "",
+   "score": 58,
+   "naf": "Construction de véhicules automobiles",
+   "tel": "",
+   "site": ""
+  },
+  {
    "siren": "665580072",
    "siret": "66558007200288",
    "nom": "BONDUELLE EUROPE LONG LIFE (BELL)",
@@ -325,18 +329,6 @@
    "taille": "500-999",
    "score": 58,
    "naf": "Autre transformation et conservation de légumes",
-   "tel": "",
-   "site": ""
-  },
-  {
-   "siren": "180089013",
-   "siret": "18008901303894",
-   "nom": "CENTRE NATIONAL DE LA RECHERCHE SCIENTIF (CNRS MOY1800 HAUTS-DE-FRANCE)",
-   "adresse": "59800 Lille",
-   "dep": "59",
-   "taille": "500-999",
-   "score": 57,
-   "naf": "Recherche-développement en sciences humaines et sociales",
    "tel": "",
    "site": ""
   },
@@ -401,6 +393,18 @@
    "site": ""
   },
   {
+   "siren": "180089013",
+   "siret": "18008901303894",
+   "nom": "CENTRE NATIONAL DE LA RECHERCHE SCIENTIF (CNRS MOY1800 HAUTS-DE-FRANCE)",
+   "adresse": "59800 Lille",
+   "dep": "59",
+   "taille": "500-999",
+   "score": 53,
+   "naf": "Recherche-développement en sciences humaines et sociales",
+   "tel": "",
+   "site": ""
+  },
+  {
    "siren": "391166089",
    "siret": "39116608900048",
    "nom": "ASS RECUP'TRI",
@@ -445,18 +449,6 @@
    "taille": "250-499",
    "score": 52,
    "naf": "Hypermarchés",
-   "tel": "",
-   "site": ""
-  },
-  {
-   "siren": "410206437",
-   "siret": "41020643700023",
-   "nom": "RENAULT ELECTRICITY",
-   "adresse": "59500 Douai",
-   "dep": "59",
-   "taille": "",
-   "score": 51,
-   "naf": "Construction de véhicules automobiles",
    "tel": "",
    "site": ""
   },
@@ -845,18 +837,6 @@
    "site": ""
   },
   {
-   "siren": "799738315",
-   "siret": "79973831500172",
-   "nom": "VIMO",
-   "adresse": "02150 Sissonne",
-   "dep": "02",
-   "taille": "",
-   "score": 6,
-   "naf": "Autres commerces de détail spécialisés divers",
-   "tel": "",
-   "site": ""
-  },
-  {
    "siren": "942173444",
    "siret": "94217344400020",
    "nom": "GF SURGELES CONDREN (PICARD)",
@@ -941,6 +921,18 @@
    "site": ""
   },
   {
+   "siren": "799738315",
+   "siret": "79973831500172",
+   "nom": "VIMO",
+   "adresse": "02150 Sissonne",
+   "dep": "02",
+   "taille": "",
+   "score": 2,
+   "naf": "Autres commerces de détail spécialisés divers",
+   "tel": "",
+   "site": ""
+  },
+  {
    "siren": "779463223",
    "siret": "77946322300494",
    "nom": "LA BOITE A OUTILS (L ENTREPOT DU BRICOLAGE)",
@@ -1006,6 +998,10 @@
    "adresse": "59112 Annœullin",
    "source": "La Bonne Boîte v2 (recrute)"
   },
+  "410206437": {
+   "adresse": "59500 Douai",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
   "530675222": {
    "adresse": "62141 Évin-Malmaison",
    "source": "La Bonne Boîte v2 (recrute)"
@@ -1036,10 +1032,6 @@
   },
   "776221467": {
    "adresse": "51300 Marolles",
-   "source": "La Bonne Boîte v2 (recrute)"
-  },
-  "410206437": {
-   "adresse": "59500 Douai",
    "source": "La Bonne Boîte v2 (recrute)"
   },
   "519037584": {
@@ -1150,10 +1142,6 @@
    "adresse": "02210 Oulchy-le-Château",
    "source": "La Bonne Boîte v2 (recrute)"
   },
-  "799738315": {
-   "adresse": "02150 Sissonne",
-   "source": "La Bonne Boîte v2 (recrute)"
-  },
   "942173444": {
    "adresse": "02700 Condren",
    "source": "La Bonne Boîte v2 (recrute)"
@@ -1180,6 +1168,10 @@
   },
   "347926719": {
    "adresse": "08000 Les Ayvelles",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
+  "799738315": {
+   "adresse": "02150 Sissonne",
    "source": "La Bonne Boîte v2 (recrute)"
   },
   "779463223": {
