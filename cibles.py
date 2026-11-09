@@ -15,7 +15,7 @@ Principe (bibliothèque standard uniquement, aucune clé) :
    30 GWh), toiture (30), ICPE (10), effectif connu à l'établissement (10), PME/ETI (10).
 
 Lancement : python cibles.py 59 [62 ...] ; variables : CIBLES_TOITURE (défaut 400 établissements
-enrichis par département), CIBLES_MAX (défaut 1 200 établissements conservés), CIBLES_SANS_TOITURE=1.
+enrichis par département), CIBLES_MAX (défaut 1 000 établissements conservés + CIBLES_INF = 300 sous 500 MWh), CIBLES_SANS_TOITURE=1.
 """
 
 import datetime as dt
@@ -34,7 +34,9 @@ WFS = "https://data.geopf.fr/wfs/ows"
 UA = {"User-Agent": "SuiviMarche-cibles/1.0"}
 
 N_TOITURE = int(os.environ.get("CIBLES_TOITURE", "400"))
-N_MAX = int(os.environ.get("CIBLES_MAX", "1200"))
+N_MAX = int(os.environ.get("CIBLES_MAX", "1000"))
+N_INF = int(os.environ.get("CIBLES_INF", "300"))   # quota supplémentaire d'établissements sous 500 MWh (potentiel inférieur)
+CONSO_INF = 500
 SANS_TOITURE = os.environ.get("CIBLES_SANS_TOITURE") == "1"
 PART_TOITURE, M2_PAR_KWC = 0.45, 5.5   # mêmes hypothèses que prospects_bdnb.py
 
@@ -281,6 +283,7 @@ def traiter(dep, naf_libs):
         e["score"] = score(e)
         e.pop("icpe_pts", None)
     etabs.sort(key=lambda e: (-e["score"], -e["conso_mwh"]))
+    garde = etabs[:N_MAX] + [e for e in etabs[N_MAX:] if e["conso_mwh"] < CONSO_INF][:N_INF]
     secteurs = {}
     for e in etabs:
         secteurs[e["secteur"]] = secteurs.get(e["secteur"], 0) + 1
@@ -290,12 +293,12 @@ def traiter(dep, naf_libs):
         "hypotheses": {"effectif_median_tranche": True, "ratios_mwh_salarie": {c[0]: c[3] for c in CIBLES},
                        "part_toiture": PART_TOITURE, "m2_par_kwc": M2_PAR_KWC, "rayon_toiture_m": 100},
         "total": len(etabs), "secteurs": secteurs,
-        "donnees": etabs[:N_MAX],
+        "donnees": garde,
     }
     os.makedirs(os.path.join(ICI, "cibles"), exist_ok=True)
     with open(os.path.join(ICI, "cibles", "%s.json" % dep), "w", encoding="utf-8") as f:
         json.dump(doc, f, ensure_ascii=False, separators=(",", ":"))
-    print("  %d établissements, %d conservés -> cibles/%s.json" % (len(etabs), min(len(etabs), N_MAX), dep), flush=True)
+    print("  %d établissements, %d conservés -> cibles/%s.json" % (len(etabs), len(garde), dep), flush=True)
     return doc
 
 
