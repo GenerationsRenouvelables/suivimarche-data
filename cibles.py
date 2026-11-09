@@ -11,17 +11,22 @@ Principe (bibliothèque standard uniquement, aucune clé) :
    un rayon de ~100 m du point Sirene (BD TOPO IGN via le WFS de la Géoplateforme), convertie en
    kWc installables avec les hypothèses de prospects_bdnb.py (45 % de l'emprise, 5,5 m²/kWc) ;
 4. croisement avec icpe/<dep>.json du relais (installation classée = site industriel confirmé) ;
+4b. zone d'activité : polygone « Zone industrielle » de la BD TOPO (couche zone_d_activite_ou_d_interet,
+   toponyme du type « Zone Industrielle de Seclin ») contenant le point ou à moins de ZONE_TOLERANCE_M,
+   sinon zone lue dans l'adresse Sirene (ZI, ZA, ZAC, parc d'activités...) ; zonage PLU au point
+   (API Carto IGN / Géoportail de l'urbanisme : libellé UE, UI, 1AUx... et intitulé long) ;
 5. score 0-100 : consommation estimée (40, plafond atteint vers 1 000 MWh, malus au-delà de
    30 GWh), toiture (30), ICPE (10), effectif connu à l'établissement (10), PME/ETI (10).
 
 Lancement : python cibles.py 59 [62 ...] ; variables : CIBLES_TOITURE (défaut 400 établissements
-enrichis par département), CIBLES_MAX (défaut 1 000 établissements conservés + CIBLES_INF = 300 sous 500 MWh), CIBLES_SANS_TOITURE=1.
+enrichis par département), CIBLES_SANS_PLU=1 (saute le zonage PLU, ~0,5 s par établissement), CIBLES_MAX (défaut 1 000 établissements conservés + CIBLES_INF = 300 sous 500 MWh), CIBLES_SANS_TOITURE=1.
 """
 
 import datetime as dt
 import json
 import math
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -38,6 +43,11 @@ N_MAX = int(os.environ.get("CIBLES_MAX", "1000"))
 N_INF = int(os.environ.get("CIBLES_INF", "300"))   # quota supplémentaire d'établissements sous 500 MWh (potentiel inférieur)
 CONSO_INF = 500
 SANS_TOITURE = os.environ.get("CIBLES_SANS_TOITURE") == "1"
+SANS_PLU = os.environ.get("CIBLES_SANS_PLU") == "1"
+GPU = "https://apicarto.ign.fr/api/gpu/zone-urba"
+ZONE_TOLERANCE_M = 120
+ZONE_ADR = re.compile(r"\b(Z\.?I\.?|Z\.?A\.?[CEL]?|ZONE INDUSTRIELLE|ZONE D['’ ]?ACTIVITES?|ZONE ARTISANALE|ZONE COMMERCIALE|ZONE D['’ ]?AMENAGEMENT CONCERTE|PARC D['’ ]?ACTIVITES?|PARC INDUSTRIEL|PARC LOGISTIQUE|PARC D['’ ]?ENTREPRISES|PARC TERTIAIRE|PARC SCIENTIFIQUE|POLE D['’ ]?ACTIVITES?|ESPACE D['’ ]?ACTIVITES?|TECHNOPOLE|PLATEFORME MULTIMODALE|ACTIPARC|ACTIPOLE|ECOPARC)(?=\s|$)(.*?)(?=\s\d{5}\s|$)", re.I)
+PLU_ECO = re.compile(r"activit|econom|industri|artisan|commerc|logisti|entrepris|tertiair", re.I)
 PART_TOITURE, M2_PAR_KWC = 0.45, 5.5   # mêmes hypothèses que prospects_bdnb.py
 
 # Effectif médian par tranche INSEE
@@ -81,7 +91,7 @@ def api(params, essais=3):
                 time.sleep(3 * (i + 1)); continue
             print("  API %s : %s" % (e.code, e.read().decode("utf-8", "replace")[:200]), file=sys.stderr)
             return None
-        except (urllib.error.URLError, TimeoutError):
+        except Exception:   # coupure réseau, délai dépassé, réponse tronquée
             time.sleep(3 * (i + 1))
     return None
 
@@ -241,6 +251,98 @@ def _shoelace(ring):
     return abs(a) / 2
 
 
+def zones_bdtopo(dep):
+    """polygones « Zone industrielle » de la BD TOPO du département : [(toponyme, [anneaux lon/lat])]"""
+    out, start = [], 0
+    while True:
+        q = {"SERVICE": "WFS", "VERSION": "2.0.0", "REQUEST": "GetFeature", "TYPENAMES": "BDTOPO_V3:zone_d_activite_ou_d_interet",
+             "OUTPUTFORMAT": "application/json", "COUNT": 1000, "STARTINDEX": start, "SRSNAME": "CRS:84",
+             "CQL_FILTER": "nature='Zone industrielle' AND insee_commune LIKE '%s%%'" % dep}
+        try:
+            with urllib.request.urlopen(urllib.request.Request(WFS + "?" + urllib.parse.urlencode(q), headers=UA), timeout=120) as r:
+                fc = json.load(r)
+        except Exception as ex:
+            print("  zones BD TOPO indisponibles : %s" % ex, file=sys.stderr)
+            break
+        feats = fc.get("features") or []
+        for f in feats:
+            p = f.get("properties") or {}
+            g = f.get("geometry") or {}
+            rings = [poly[0] for poly in g.get("coordinates", [])] if g.get("type") == "MultiPolygon" else ([g["coordinates"][0]] if g.get("type") == "Polygon" else [])
+            nom = (p.get("toponyme") or "").strip() or "Zone industrielle (%s)" % (p.get("commune") or "").title()
+            if rings:
+                out.append((nom, rings))
+        if len(feats) < 1000:
+            break
+        start += 1000
+    print("  zones industrielles BD TOPO : %d" % len(out), flush=True)
+    return out
+
+
+def _dans(lon, lat, ring):
+    inside = False
+    n = len(ring)
+    for i in range(n):
+        x1, y1 = ring[i][0], ring[i][1]
+        x2, y2 = ring[(i + 1) % n][0], ring[(i + 1) % n][1]
+        if (y1 > lat) != (y2 > lat) and lon < (x2 - x1) * (lat - y1) / ((y2 - y1) or 1e-12) + x1:
+            inside = not inside
+    return inside
+
+
+def zone_de(lat, lon, zones):
+    """nom de la zone industrielle contenant le point, sinon la plus proche à moins de ZONE_TOLERANCE_M (distance aux sommets)"""
+    if lat is None or lon is None:
+        return ""
+    kx = 111320.0 * math.cos(math.radians(lat))
+    meilleure, dmin = "", ZONE_TOLERANCE_M
+    for nom, rings in zones:
+        for ring in rings:
+            xs = [p[0] for p in ring]; ys = [p[1] for p in ring]
+            if lon < min(xs) - 0.003 or lon > max(xs) + 0.003 or lat < min(ys) - 0.002 or lat > max(ys) + 0.002:
+                continue
+            if _dans(lon, lat, ring):
+                return nom
+            d = min(math.hypot((p[0] - lon) * kx, (p[1] - lat) * 111320.0) for p in ring)
+            if d < dmin:
+                meilleure, dmin = nom, d
+    return meilleure
+
+
+def zone_adresse(adresse):
+    """zone d'activité lue dans l'adresse Sirene : « ZI DE SECLIN », « PARC D'ACTIVITES DU MOULIN »..."""
+    m = ZONE_ADR.search(adresse or "")
+    if not m:
+        return ""
+    txt = re.sub(r"\s+", " ", (m.group(1) + " " + m.group(2)).strip())[:60].strip(" ,-")
+    t = txt.title()
+    for a, b in (("D'", "d'"), (" D ", " d'"), ("D’", "d'"), (" De ", " de "), (" Du ", " du "), (" Des ", " des "), (" La ", " la "), (" Le ", " le "), (" Les ", " les "), (" Et ", " et ")):
+        t = t.replace(a, b)
+    return re.sub(r"^(Z\.?[IA]\.?[CEL]?)(?=\s|$)", lambda m: m.group(1).upper(), t, flags=re.I)
+
+
+def plu(lat, lon):
+    """zonage PLU au point (Géoportail de l'urbanisme via l'API Carto IGN) : {z, lib, t}"""
+    if lat is None or lon is None:
+        return None
+    g = json.dumps({"type": "Point", "coordinates": [lon, lat]})
+    for i in range(2):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(GPU + "?" + urllib.parse.urlencode({"geom": g}), headers=UA), timeout=40) as r:
+                feats = (json.load(r).get("features") or [])
+            if not feats:
+                return None
+            p = feats[0].get("properties") or {}
+            return {"z": p.get("libelle") or "", "lib": (p.get("libelong") or "")[:120], "t": p.get("typezone") or ""}
+        except urllib.error.HTTPError as ex:
+            if ex.code in (429, 500, 502, 503, 504):
+                time.sleep(2 + 3 * i); continue
+            return None
+        except Exception:
+            time.sleep(2)
+    return None
+
+
 def score(e):
     s = 0.0
     c = e["conso_mwh"]
@@ -284,15 +386,37 @@ def traiter(dep, naf_libs):
         e.pop("icpe_pts", None)
     etabs.sort(key=lambda e: (-e["score"], -e["conso_mwh"]))
     garde = etabs[:N_MAX] + [e for e in etabs[N_MAX:] if e["conso_mwh"] < CONSO_INF][:N_INF]
+    zones = zones_bdtopo(dep)
+    n_zone = n_adr = n_plu = 0
+    for e in garde:
+        z = zone_de(e["lat"], e["lon"], zones)
+        if z:
+            e["zone"], e["zone_src"] = z, "bdtopo"; n_zone += 1
+        else:
+            za = zone_adresse(e["adresse"])
+            if za:
+                e["zone"], e["zone_src"] = za, "adresse"; n_adr += 1
+        if not SANS_PLU:
+            p = plu(e["lat"], e["lon"])
+            if p:
+                e["plu"] = p; n_plu += 1
+                if PLU_ECO.search(p["lib"]) or re.match(r"^(\d?AU)?U?[EIXYZ]", p["z"] or ""):
+                    e["plu_eco"] = True
+            time.sleep(0.05)
+    print("  zones : %d par la BD TOPO, %d par l'adresse ; PLU renseigné : %d" % (n_zone, n_adr, n_plu), flush=True)
+    zones_n = {}
+    for e in garde:
+        if e.get("zone"):
+            zones_n[e["zone"]] = zones_n.get(e["zone"], 0) + 1
     secteurs = {}
     for e in etabs:
         secteurs[e["secteur"]] = secteurs.get(e["secteur"], 0) + 1
     doc = {
         "dep": dep, "maj": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "source": "API Recherche d'entreprises (DINUM/INSEE), BD TOPO IGN (Géoplateforme), ICPE (Géorisques) via le relais",
+        "source": "API Recherche d'entreprises (DINUM/INSEE), BD TOPO IGN (Géoplateforme : bâtiments, zones d'activité), Géoportail de l'urbanisme (API Carto IGN), ICPE (Géorisques) via le relais",
         "hypotheses": {"effectif_median_tranche": True, "ratios_mwh_salarie": {c[0]: c[3] for c in CIBLES},
-                       "part_toiture": PART_TOITURE, "m2_par_kwc": M2_PAR_KWC, "rayon_toiture_m": 100},
-        "total": len(etabs), "secteurs": secteurs,
+                       "part_toiture": PART_TOITURE, "m2_par_kwc": M2_PAR_KWC, "rayon_toiture_m": 100, "zone_tolerance_m": ZONE_TOLERANCE_M},
+        "total": len(etabs), "secteurs": secteurs, "zones": dict(sorted(zones_n.items(), key=lambda kv: -kv[1])),
         "donnees": garde,
     }
     os.makedirs(os.path.join(ICI, "cibles"), exist_ok=True)
