@@ -15,7 +15,7 @@ Principe (bibliothèque standard uniquement, aucune clé) :
    30 GWh), toiture (30), ICPE (10), effectif connu à l'établissement (10), PME/ETI (10).
 
 Lancement : python cibles.py 59 [62 ...] ; variables : CIBLES_TOITURE (défaut 400 établissements
-enrichis par département), CIBLES_MAX (défaut 600 établissements conservés), CIBLES_SANS_TOITURE=1.
+enrichis par département), CIBLES_MAX (défaut 1 200 établissements conservés), CIBLES_SANS_TOITURE=1.
 """
 
 import datetime as dt
@@ -34,7 +34,7 @@ WFS = "https://data.geopf.fr/wfs/ows"
 UA = {"User-Agent": "SuiviMarche-cibles/1.0"}
 
 N_TOITURE = int(os.environ.get("CIBLES_TOITURE", "400"))
-N_MAX = int(os.environ.get("CIBLES_MAX", "600"))
+N_MAX = int(os.environ.get("CIBLES_MAX", "1200"))
 SANS_TOITURE = os.environ.get("CIBLES_SANS_TOITURE") == "1"
 PART_TOITURE, M2_PAR_KWC = 0.45, 5.5   # mêmes hypothèses que prospects_bdnb.py
 
@@ -175,11 +175,11 @@ def etablissements(dep, naf_libs):
                         out.append({
                             "siren": ul.get("siren"), "siret": siret, "nom": ul.get("nom_complet") or ul.get("nom_raison_sociale"),
                             "enseigne": (e.get("liste_enseignes") or [None])[0] or e.get("nom_commercial"),
-                            "naf": naf, "naf_lib": naf_libs.get(naf, ""), "secteur": lib,
-                            "effectif": tr_e if connu else "", "effectif_ul": eff_ul, "eff_est": round(eff),
+                            "naf": naf, "secteur": lib,
+                            "effectif": tr_e if connu else "", "eff_est": round(eff),
                             "siege": bool(e.get("est_siege")), "n_etab": n_etab,
                             "categorie": ul.get("categorie_entreprise") or "", "ca": ca, "ca_annee": annee,
-                            "adresse": e.get("adresse") or "", "com": (e.get("libelle_commune") or "").title(), "insee": e.get("commune"),
+                            "adresse": e.get("adresse") or "", "com": (e.get("libelle_commune") or "").title(),
                             "lat": _f(e.get("latitude")), "lon": _f(e.get("longitude")),
                             "creation": e.get("date_creation"),
                             "conso_mwh": round(eff * ratio),
