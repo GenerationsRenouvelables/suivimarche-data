@@ -1,7 +1,7 @@
 {
- "maj": "2026-11-21T14:33:10+00:00",
+ "maj": "2026-11-22T14:28:30+00:00",
  "n": 30,
- "n_ko": 0,
+ "n_ko": 1,
  "n_partiel": 0,
  "res": {
   "odre": {
@@ -9,7 +9,7 @@
    "url": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/registre-national-installation-production-stockage-electricite-agrege/records?limit=1",
    "ok": true,
    "code": 200,
-   "ms": 1542,
+   "ms": 1065,
    "msg": "HTTP 200",
    "vital": true
   },
@@ -18,7 +18,7 @@
    "url": "https://opendata.enedis.fr/api/explore/v2.1/catalog/datasets/parc-des-installations-de-production-raccordees-par-departement/records?limit=1",
    "ok": true,
    "code": 200,
-   "ms": 1541,
+   "ms": 1290,
    "msg": "HTTP 200",
    "vital": true
   },
@@ -27,7 +27,7 @@
    "url": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-regional-cons-def/records?limit=1",
    "ok": true,
    "code": 200,
-   "ms": 1280,
+   "ms": 1066,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -36,7 +36,7 @@
    "url": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/parc-regional-annuel-prod-eolien-solaire/records?limit=1",
    "ok": true,
    "code": 200,
-   "ms": 1221,
+   "ms": 1377,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -45,7 +45,7 @@
    "url": "https://data.statistiques.developpement-durable.gouv.fr/dido/api/v1/datafiles/f8f0700f-806c-40a7-83b1-f21cf507e7c4",
    "ok": true,
    "code": 200,
-   "ms": 1883,
+   "ms": 1662,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -54,7 +54,7 @@
    "url": "https://recherche-entreprises.api.gouv.fr/search?q=agriwatt&per_page=1",
    "ok": true,
    "code": 200,
-   "ms": 1012,
+   "ms": 1119,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -63,7 +63,7 @@
    "url": "https://data.ademe.fr/data-fair/api/v1/datasets/bilan-ges/lines?size=1",
    "ok": true,
    "code": 200,
-   "ms": 673,
+   "ms": 492,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -72,7 +72,7 @@
    "url": "https://data.ademe.fr/data-fair/api/v1/datasets/liste-des-entreprises-rge-2/lines?size=1",
    "ok": true,
    "code": 200,
-   "ms": 448,
+   "ms": 385,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -81,7 +81,7 @@
    "url": "https://data.ademe.fr/data-fair/api/v1/datasets/les-aides-financieres-de-l%27ademe/lines?size=1",
    "ok": true,
    "code": 200,
-   "ms": 797,
+   "ms": 640,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -90,7 +90,7 @@
    "url": "https://api-lannuaire.service-public.fr/api/explore/v2.1/catalog/datasets/api-lannuaire-administration/records?limit=1",
    "ok": true,
    "code": 200,
-   "ms": 977,
+   "ms": 1025,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -99,7 +99,7 @@
    "url": "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-annuaire-education/records?limit=1",
    "ok": true,
    "code": 200,
-   "ms": 1065,
+   "ms": 919,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -108,7 +108,7 @@
    "url": "https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/records?limit=1",
    "ok": true,
    "code": 200,
-   "ms": 584,
+   "ms": 497,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -117,7 +117,7 @@
    "url": "https://boamp-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/boamp/records?limit=1",
    "ok": true,
    "code": 200,
-   "ms": 522,
+   "ms": 511,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -126,7 +126,7 @@
    "url": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/decp-2022-marches-valides/records?limit=1",
    "ok": true,
    "code": 200,
-   "ms": 833,
+   "ms": 962,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -135,7 +135,7 @@
    "url": "https://equipements.sports.gouv.fr/api/explore/v2.1/catalog/datasets/data-es/records?limit=1",
    "ok": true,
    "code": 200,
-   "ms": 1083,
+   "ms": 1062,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -144,7 +144,7 @@
    "url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Agriwatt&language=fr&format=json&limit=1",
    "ok": true,
    "code": 200,
-   "ms": 438,
+   "ms": 185,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -152,48 +152,44 @@
    "lbl": "Overpass (OpenStreetMap)",
    "url": "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A10%5D%3Bnode%281%29%3Bout%3B",
    "ok": true,
-   "code": 502,
-   "ms": 341,
-   "msg": "indisponible à cet instant, un autre serveur Overpass répond : HTTP 502 : # 502 Gateway Timeout\n\nThis Overpass API server is currently at capacity. All query workers are busy\nand the request que",
-   "vital": false,
-   "essais": 2
+   "code": 200,
+   "ms": 19897,
+   "msg": "HTTP 200",
+   "vital": false
   },
   "overpass2": {
    "lbl": "Overpass, serveur z (overpass-api.de)",
    "url": "https://z.overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A10%5D%3Bnode%281%29%3Bout%3B",
    "ok": true,
-   "code": 502,
-   "ms": 296,
-   "msg": "indisponible à cet instant, un autre serveur Overpass répond : HTTP 502 : # 502 Gateway Timeout\n\nThis Overpass API server is currently at capacity. All query workers are busy\nand the request que",
-   "vital": false,
-   "essais": 2
+   "code": 200,
+   "ms": 19765,
+   "msg": "HTTP 200",
+   "vital": false
   },
   "overpass3": {
    "lbl": "Overpass, serveur lz4 (overpass-api.de)",
    "url": "https://lz4.overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A10%5D%3Bnode%281%29%3Bout%3B",
    "ok": true,
-   "code": 502,
-   "ms": 366,
-   "msg": "indisponible à cet instant, un autre serveur Overpass répond : HTTP 502 : # 502 Gateway Timeout\n\nThis Overpass API server is currently at capacity. All query workers are busy\nand the request que",
-   "vital": false,
-   "essais": 2
+   "code": 200,
+   "ms": 24250,
+   "msg": "HTTP 200",
+   "vital": false
   },
   "overpass4": {
    "lbl": "Overpass, miroir de secours (maps.mail.ru)",
    "url": "https://maps.mail.ru/osm/tools/overpass/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A10%5D%3Bnode%281%29%3Bout%3B",
    "ok": true,
-   "code": null,
-   "ms": 25551,
-   "msg": "indisponible à cet instant, un autre serveur Overpass répond : délai dépassé (25 s)",
-   "vital": false,
-   "essais": 2
+   "code": 200,
+   "ms": 14450,
+   "msg": "HTTP 200",
+   "vital": false
   },
   "overpass5": {
    "lbl": "Overpass, miroir suisse (osm.ch)",
    "url": "https://overpass.osm.ch/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A10%5D%3Bnode%281%29%3Bout%3B",
    "ok": true,
    "code": 200,
-   "ms": 832,
+   "ms": 676,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -202,34 +198,37 @@
    "url": "https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX=6&TILEROW=22&TILECOL=32&FORMAT=image%2Fjpeg",
    "ok": true,
    "code": 200,
-   "ms": 1102,
+   "ms": 674,
    "msg": "HTTP 200",
    "vital": false
   },
   "bdnbS3": {
    "lbl": "Exports BDNB (CSTB)",
-   "url": "https://open-data.s3.fr-par.scw.cloud/bdnb_millesime_2026-02-b/millesime_2026-02-b_dep90/open_data_millesime_2026-02-b_dep90_csv.zip",
+   "url": "https://open-data.s3.fr-par.scw.cloud/bdnb_millesime_2026-02-a/millesime_2026-02-a_dep90/open_data_millesime_2026-02-a_dep90_csv.zip",
    "ok": true,
    "code": 200,
-   "ms": 813,
+   "ms": 511,
    "msg": "HTTP 200",
    "vital": false
   },
   "spot": {
    "lbl": "Prix spot (energy-charts)",
-   "url": "https://api.energy-charts.info/price?bzn=FR&start=2026-11-20&end=2026-11-20",
-   "ok": true,
-   "code": 200,
-   "ms": 1280,
-   "msg": "HTTP 200",
-   "vital": false
+   "url": "https://api.energy-charts.info/price?bzn=FR&start=2026-11-21&end=2026-11-21",
+   "ok": false,
+   "code": 404,
+   "ms": 431,
+   "msg": "HTTP 404 : no content available",
+   "vital": false,
+   "essais": 2,
+   "ko_depuis": "2026-11-22",
+   "ko_jours": 1
   },
   "dila": {
    "lbl": "Journal officiel (open data DILA)",
    "url": "https://echanges.dila.gouv.fr/OPENDATA/JORF/",
    "ok": true,
    "code": 200,
-   "ms": 702,
+   "ms": 766,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -238,7 +237,7 @@
    "url": "https://geo.api.gouv.fr/departements/59/communes?fields=code&format=json",
    "ok": true,
    "code": 200,
-   "ms": 1292,
+   "ms": 575,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -247,7 +246,7 @@
    "url": "https://www.georisques.gouv.fr/api/v1/installations_classees?departement=59&page_size=1&page=1",
    "ok": true,
    "code": 200,
-   "ms": 1478,
+   "ms": 1304,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -256,7 +255,7 @@
    "url": "http://zbpbasv.cluster121.hosting.ovh.net/suivimarche/georisques-icpe.php?departement=59&page=1&page_size=1",
    "ok": true,
    "code": 200,
-   "ms": 894,
+   "ms": 1259,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -265,7 +264,7 @@
    "url": "https://www.data.gouv.fr/api/1/datasets/?q=finess&page_size=1",
    "ok": true,
    "code": 200,
-   "ms": 414,
+   "ms": 1841,
    "msg": "HTTP 200",
    "vital": false
   },
@@ -274,7 +273,7 @@
    "url": "https://opendata.agencebio.org/api/gouv/operateurs/?departement=59&nb=1",
    "ok": true,
    "code": 200,
-   "ms": 753,
+   "ms": 726,
    "msg": "HTTP 200",
    "vital": false
   }
