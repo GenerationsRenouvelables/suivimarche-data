@@ -1,11 +1,11 @@
 {
  "_meta": {
-  "maj": "2026-11-16T15:52:45Z",
+  "maj": "2026-11-23T18:15:42Z",
   "jours": 30,
   "sources": {
    "presse": {
     "GreenUnivers": "ok (10 entrées lues)",
-    "Actu-Environnement": "ok (7 entrées lues)",
+    "Actu-Environnement": "ok (12 entrées lues)",
     "Les-EnR.eu": "ok (10 entrées lues)",
     "Révolution Énergétique": "ok (50 entrées lues)"
    },
@@ -15,35 +15,35 @@
  },
  "presse": [
   {
-   "titre": "Industrie solaire : HoloSolis accueille quatre nouveaux actionnaires dont deux chinois",
-   "source": "GreenUnivers",
+   "titre": "Heures creuses : il y en aura moins la nuit pour 10 millions d’abonnés à l’électricité",
+   "source": "Révolution Énergétique",
+   "date": "2026-11-18",
+   "url": "https://www.revolution-energetique.com/actus/heures-creuses-il-y-en-aura-moins-la-nuit-pour-10-millions-dabonnes-a-lelectricite/",
+   "mots": [
+    "enedis"
+   ],
+   "extrait": "Au 1ᵉʳ décembre, Enedis va changer les heures creuses de 9,3 millions de clients pour en placer une partie l’après-midi en été pendant la cloche […] L’article Heures creuses : il y en aura moins la nuit pour 10 millions d’abonnés à l’électricité est apparu en premier sur Révolution Énergétique ."
+  },
+  {
+   "titre": "Comment calculer son taux d’autoconsommation avant d’installer une batterie solaire ?",
+   "source": "Révolution Énergétique",
+   "date": "2026-11-18",
+   "url": "https://www.revolution-energetique.com/actus/comment-calculer-son-taux-dautoconsommation-avant-dinstaller-une-batterie-solaire/",
+   "mots": [
+    "solaire",
+    "autoconsommation"
+   ],
+   "extrait": "Le calcul tient en une ligne : (production − électricité injectée) ÷ production, sur 12 mois, puis mois par mois. La production se lit sur l’onduleur. […] L’article Comment calculer son taux d’autoconsommation avant d’installer une batterie solaire ? est apparu en premier sur Révolution Énergétique "
+  },
+  {
+   "titre": "Black Friday 2026 : Zendure offre des accessoires indispensables avec ses batteries",
+   "source": "Révolution Énergétique",
    "date": "2026-11-16",
-   "url": "https://www.greenunivers.com/2026/11/industrie-solaire-holosolis-accueille-quatre-nouveaux-actionnaires-dont-deux-chinois-438735/",
+   "url": "https://www.revolution-energetique.com/actus/black-friday-2026-zendure-offre-des-accessoires-indispensables-avec-ses-batteries/",
    "mots": [
     "solaire"
    ],
-   "extrait": "Porteur depuis 2023 d’un projet d’usine de 5 GW de modules solaires par an en France, Holosolis boucle à 15 M€ sa levée de fonds de type « Serie A ». Quatre actionnaires entrent au capital apportant grosso modo 2,5 M€ chacun : le Crédit Agricole via quatre caisses régionales –, la société de gestion"
-  },
-  {
-   "titre": "La chaleur solaire a enfin son plan",
-   "source": "Actu-Environnement",
-   "date": "2026-11-16",
-   "url": "https://www.actu-environnement.com/ae/news/plan-national-solaire-thermique-deploiement-48802.php4#xtor=RSS-6",
-   "mots": [
-    "solaire"
-   ],
-   "extrait": "Après deux ans de travaux, le plan national pour le solaire thermique a enfin été dévoilé. Il vise à accélérer le déploiement de cette solution dans les bâtiments, mais aussi dans les activités économiques consommatrices de chaleur."
-  },
-  {
-   "titre": "EQUIP AUTO Paris 2027 : deux villages pour accélérer la décarbonation automobile",
-   "source": "Actu-Environnement",
-   "date": "2026-11-16",
-   "url": "https://www.actu-environnement.com/ae/pdt/equip-auto-paris-2027-villages-decarbonation-automobile-recyclage-electrification-1511.php4#xtor=RSS-6",
-   "mots": [
-    "décarbonation",
-    "décarboner"
-   ],
-   "extrait": "Du 12 au 16 octobre 2027, le salon EQUIP AUTO accueillera à la porte de Versailles les professionnels de l'aval de la filière automobile. Un rendez-vous incontournable qui entend, cette année, valoriser les actions engagées pour décarboner le sect..."
+   "extrait": "Le fabricant de batteries solaires prêtes à brancher Zendure a lancé le 12 novembre sa campagne Black Friday en France. Jusqu’au 7 décembre 2026, cinq […] L’article Black Friday 2026 : Zendure offre des accessoires indispensables avec ses batteries est apparu en premier sur Révolution Énergétique ."
   },
   {
    "titre": "Un million d’euros de préjudice : les vols de câbles se multiplient sur les centrales photovoltaïques",
@@ -168,28 +168,6 @@
     "décarbonation"
    ],
    "extrait": "La décarbonation des territoires insulaires est un défi difficile à surmonter. Mais la Grèce vient de franchir une étape importante en rendant autonome la petite […] L’article Cette petite île grecque est désormais autonome grâce aux énergies renouvelables et aux batteries est apparu en premier sur "
-  },
-  {
-   "titre": "Et si passer au solaire coûtait moins cher ? Ensol mise sur la location",
-   "source": "Révolution Énergétique",
-   "date": "2026-10-22",
-   "url": "https://www.revolution-energetique.com/actus/et-si-passer-au-solaire-coutait-moins-cher-ensol-mise-sur-la-location/",
-   "mots": [
-    "photovoltaïque",
-    "solaire",
-    "autoconsommation"
-   ],
-   "extrait": "Installer des panneaux solaires sans investir plusieurs milliers d’euros d’un coup : Ensol propose une formule de location pour rendre l’autoconsommation plus accessible. Le photovoltaïque […] L’article Et si passer au solaire coûtait moins cher ? Ensol mise sur la location est apparu en premier sur"
-  },
-  {
-   "titre": "Le prix de l’électricité solaire dégringole : 61 €/MWh, un tarif historiquement bas",
-   "source": "Révolution Énergétique",
-   "date": "2026-10-17",
-   "url": "https://www.revolution-energetique.com/actus/le-prix-de-lelectricite-solaire-degringole-61-e-mwh-un-tarif-historiquement-bas/",
-   "mots": [
-    "solaire"
-   ],
-   "extrait": "La neuvième session de l’appel d’offres solaire au sol a eu du succès, c’est le moins qu’on puisse dire, avec six fois la puissance demandée […] L’article Le prix de l’électricité solaire dégringole : 61 €/MWh, un tarif historiquement bas est apparu en premier sur Révolution Énergétique ."
   }
  ],
  "recrutent": [
@@ -326,6 +304,18 @@
    "site": ""
   },
   {
+   "siren": "180089013",
+   "siret": "18008901303894",
+   "nom": "CENTRE NATIONAL DE LA RECHERCHE SCIENTIF (CNRS MOY1800 HAUTS-DE-FRANCE)",
+   "adresse": "59800 Lille",
+   "dep": "59",
+   "taille": "500-999",
+   "score": 66,
+   "naf": "Recherche-développement en sciences humaines et sociales",
+   "tel": "",
+   "site": ""
+  },
+  {
    "siren": "200005478",
    "siret": "20000547800017",
    "nom": "OPERA NATIONAL DE NANCY-LORRAINE",
@@ -418,18 +408,6 @@
    "taille": "1000-1999",
    "score": 57,
    "naf": "Construction de véhicules automobiles",
-   "tel": "",
-   "site": ""
-  },
-  {
-   "siren": "215906066",
-   "siret": "21590606600018",
-   "nom": "COMMUNE DE VALENCIENNES (MAIRIE)",
-   "adresse": "59300 Valenciennes",
-   "dep": "59",
-   "taille": "500-999",
-   "score": 57,
-   "naf": "Administration publique générale",
    "tel": "",
    "site": ""
   },
@@ -770,6 +748,18 @@
    "site": ""
   },
   {
+   "siren": "351745724",
+   "siret": "35174572400325",
+   "nom": "MEUBLES IKEA FRANCE (IKEA)",
+   "adresse": "51370 Thillois",
+   "dep": "51",
+   "taille": "200-249",
+   "score": 19,
+   "naf": "Commerce de détail de meubles",
+   "tel": "",
+   "site": ""
+  },
+  {
    "siren": "510087372",
    "siret": "51008737200023",
    "nom": "BLONDEL AEROLOGISTIQUE",
@@ -790,18 +780,6 @@
    "taille": "",
    "score": 14,
    "naf": "Entreposage et stockage non frigorifique",
-   "tel": "",
-   "site": ""
-  },
-  {
-   "siren": "351745724",
-   "siret": "35174572400325",
-   "nom": "MEUBLES IKEA FRANCE (IKEA)",
-   "adresse": "51370 Thillois",
-   "dep": "51",
-   "taille": "200-249",
-   "score": 13,
-   "naf": "Commerce de détail de meubles",
    "tel": "",
    "site": ""
   },
@@ -1075,10 +1053,6 @@
    "adresse": "59111 Lieu-Saint-Amand",
    "source": "La Bonne Boîte v2 (recrute)"
   },
-  "215906066": {
-   "adresse": "59300 Valenciennes",
-   "source": "La Bonne Boîte v2 (recrute)"
-  },
   "391166089": {
    "adresse": "62160 Aix-Noulette",
    "source": "La Bonne Boîte v2 (recrute)"
@@ -1171,16 +1145,16 @@
    "adresse": "51520 Saint-Martin-sur-le-Pré",
    "source": "La Bonne Boîte v2 (recrute)"
   },
+  "351745724": {
+   "adresse": "51370 Thillois",
+   "source": "La Bonne Boîte v2 (recrute)"
+  },
   "510087372": {
    "adresse": "80300 Méaulte",
    "source": "La Bonne Boîte v2 (recrute)"
   },
   "439955741": {
    "adresse": "80830 L'Étoile",
-   "source": "La Bonne Boîte v2 (recrute)"
-  },
-  "351745724": {
-   "adresse": "51370 Thillois",
    "source": "La Bonne Boîte v2 (recrute)"
   },
   "482265451": {
